@@ -44,7 +44,7 @@ export default {};
 </script>
 
 <style lang="scss" scoped>
-button{
+button {
   margin-right: 1rem;
 }
 </style>
