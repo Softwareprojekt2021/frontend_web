@@ -32,7 +32,13 @@
             <b-dropdown-item href="#">Profile</b-dropdown-item>
             <b-dropdown-item href="#">Sign Out</b-dropdown-item>
           </b-nav-item-dropdown-->
-          <b-button size="sm" href="/login">Login</b-button>
+          <b-button
+            size="sm"
+            href="/login"
+            style="color: white"
+            class="font-weight-normal"
+            >Login</b-button
+          >
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>

@@ -1,7 +1,7 @@
 <template>
-  <div class="login" id="login">
-    <form>
-      <h3>Login</h3>
+  <div class="register">
+    <b-form @submit="onSubmit" @reset="onReset">
+      <h3>Registieren</h3>
 
       <div class="form-group">
         <label>E-Mail Adresse</label>
@@ -9,28 +9,38 @@
       </div>
 
       <div class="form-group">
+        <label>Vorname</label>
+        <input type="text" class="form-control form-control-lg" />
+      </div>
+
+      <div class="form-group">
+        <label>Nachname</label>
+        <input type="text" class="form-control form-control-lg" />
+      </div>
+
+      <div class="form-group">
         <label>Passwort</label>
         <input type="password" class="form-control form-control-lg" />
       </div>
 
-      <button type="submit" class="btn btn-dark btn-lg btn-block">
-        Anmelden
-      </button>
-      <div>
-        <p class="register text-left mt-2" style="float: left">
-          <router-link to="/register">Noch kein Account ?</router-link>
-        </p>
-
-        <p class="forgot-password text-right mt-2 mb-4" style="float: right">
-          <router-link to="/forgot-password">Passwort vergessen ?</router-link>
-        </p>
+      <div class="form-group">
+        <label>Universität/Fach Hochschule</label>
+        <input type="text" class="form-control form-control-lg" />
       </div>
-    </form>
+
+      <button type="submit" class="btn btn-dark btn-lg btn-block">
+        Registieren
+      </button>
+
+      <p class="forgot-password text-right">
+        Schon ein Account?
+        <router-link to="/login">Anmelden?</router-link>
+      </p>
+    </b-form>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
 export default {
   data() {
     return {};
@@ -39,16 +49,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.login,
+.register,
 .vertical-center {
   width: 20%;
   height: 100%;
   margin: auto;
-}
-
-.navbar-light {
-  background-color: #ffffff;
-  box-shadow: 0px 14px 80px rgba(34, 35, 58, 0.2);
 }
 
 .vertical-center {
@@ -62,7 +67,7 @@ export default {
   width: 450px;
   margin: auto;
   background: #ffffff;
-  box-shadow: 0px 14px 80px rgba(34, 35, 58, 0.2);
+  box-shadow: 0 14px 80px rgba(34, 35, 58, 0.2);
   padding: 40px 55px 45px 55px;
   border-radius: 15px;
   transition: all 0.3s;
@@ -75,7 +80,7 @@ export default {
 
 .vertical-center h3 {
   text-align: center;
-  margin: 0;
+  margin: auto;
   line-height: 1;
   padding-bottom: 20px;
 }
@@ -84,26 +89,13 @@ label {
   font-weight: 500;
 }
 
-.forgot-password,
-.forgot-password a {
-  text-align: right;
-  font-size: 13px;
-  padding-top: 0;
-  color: #7a7a7a;
-  margin: 0;
-}
-
-.forgot-password a {
-  color: #2554ff;
-}
-
 .register,
 .register a {
-  text-align: left;
+  text-align: center;
   font-size: 13px;
-  padding-top: 0;
-  color: #7a7a7a;
-  margin: 0;
+  padding-top: 0.5rem;
+  //color: #7a7a7a;
+  margin: auto;
 }
 
 .register a {
