@@ -1,21 +1,34 @@
 <template>
   <div class="login" id="login">
-    <form>
-      <h3>Login</h3>
+    <h3>Login</h3>
+    <b-form @submit="onSubmit" @reset="onReset" v-if="show">
+      <b-form-group
+        id="input-group-1"
+        label="E-Mail Adresse:"
+        label-for="input-1"
+        description=""
+      >
+        <b-form-input
+          id="input-1"
+          v-model="form.email"
+          type="email"
+          placeholder="M.Mustermann@email.de"
+          required
+        ></b-form-input>
+      </b-form-group>
 
-      <div class="form-group">
-        <label>E-Mail Adresse</label>
-        <input type="email" class="form-control form-control-lg" />
-      </div>
-
-      <div class="form-group">
-        <label>Passwort</label>
-        <input type="password" class="form-control form-control-lg" />
-      </div>
-
-      <button type="submit" class="btn btn-dark btn-lg btn-block">
-        Anmelden
-      </button>
+      <b-form-group id="input-group-2" label="Passwort:" label-for="input-2">
+        <b-form-input
+          id="input-2"
+          type="password"
+          v-model="form.passwort"
+          placeholder="Passwort"
+          required
+        ></b-form-input>
+      </b-form-group>
+      <b-button type="submit" class="btn btn-dark btn-lg btn-block"
+        >Anmelden</b-button
+      >
       <div>
         <p class="register text-left mt-2" style="float: left">
           <router-link to="/register">Noch kein Account ?</router-link>
@@ -25,15 +38,37 @@
           <router-link to="/forgot-password">Passwort vergessen ?</router-link>
         </p>
       </div>
-    </form>
+    </b-form>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
 export default {
   data() {
-    return {};
+    return {
+      form: {
+        email: "",
+        passwort: "",
+      },
+      show: true,
+    };
+  },
+  methods: {
+    onSubmit(event) {
+      event.preventDefault();
+      alert(JSON.stringify(this.form));
+    },
+    onReset(event) {
+      event.preventDefault();
+      // Reset our form values
+      this.form.email = "";
+      this.form.name = "";
+      // Trick to reset/clear native browser form validation state
+      this.show = false;
+      this.$nextTick(() => {
+        this.show = true;
+      });
+    },
   },
 };
 </script>

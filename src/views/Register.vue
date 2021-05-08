@@ -1,104 +1,134 @@
 <template>
   <div class="register">
-    <b-form @submit="onSubmit" @reset="onReset">
-      <h3>Registieren</h3>
+    <h3>Registrieren</h3>
+    <b-form @submit="onSubmit" @reset="onReset" v-if="show">
+      <b-form-group
+        id="input-group-1"
+        label="E-Mail Adresse:"
+        label-for="input-1"
+        description=""
+      >
+        <b-form-input
+          id="input-1"
+          v-model="form.email"
+          type="email"
+          placeholder="M.Mustermann@email.de"
+          required
+        ></b-form-input>
+      </b-form-group>
 
-      <div class="form-group">
-        <label>E-Mail Adresse</label>
-        <input type="email" class="form-control form-control-lg" />
-      </div>
+      <b-form-group id="input-group-2" label="Nachname:" label-for="input-2">
+        <b-form-input
+          id="input-2"
+          v-model="form.name"
+          placeholder="Mustermann"
+          required
+        ></b-form-input>
+      </b-form-group>
 
-      <div class="form-group">
-        <label>Vorname</label>
-        <input type="text" class="form-control form-control-lg" />
-      </div>
+      <b-form-group id="input-group-3" label="Vorname:" label-for="input-3">
+        <b-form-input
+          id="input-3"
+          v-model="form.vname"
+          placeholder="Max"
+          required
+        ></b-form-input>
+      </b-form-group>
 
-      <div class="form-group">
-        <label>Nachname</label>
-        <input type="text" class="form-control form-control-lg" />
-      </div>
+      <b-form-group id="input-group-4" label="Uni/FH:" label-for="input-4">
+        <b-form-input
+          id="input-4"
+          v-model="form.uni"
+          placeholder="Uni/FH"
+          required
+        ></b-form-input>
+      </b-form-group>
 
-      <div class="form-group">
-        <label>Passwort</label>
-        <input type="password" class="form-control form-control-lg" />
-      </div>
+      <b-form-group id="input-group-5" label="Passwort:" label-for="input-5">
+        <b-form-input
+          id="input-5"
+          type="password"
+          v-model="form.passwort"
+          placeholder="Passwort"
+          required
+        ></b-form-input>
+      </b-form-group>
 
-      <div class="form-group">
-        <label>Universität/Fach Hochschule</label>
-        <input type="text" class="form-control form-control-lg" />
-      </div>
+      <!--b-form-group id="input-group-3" label="Food:" label-for="input-3">
+        <b-form-select
+          id="input-3"
+          v-model="form.food"
+          :options="foods"
+          required
+        ></b-form-select>
+      </b-form-group>
 
-      <button type="submit" class="btn btn-dark btn-lg btn-block">
-        Registieren
-      </button>
+      <b-form-group id="input-group-4" v-slot="{ ariaDescribedby }">
+        <b-form-checkbox-group
+          v-model="form.checked"
+          id="checkboxes-4"
+          :aria-describedby="ariaDescribedby"
+        >
+          <b-form-checkbox value="me">Check me out</b-form-checkbox>
+          <b-form-checkbox value="that">Check that out</b-form-checkbox>
+        </b-form-checkbox-group>
+      </b-form-group-->
 
-      <p class="forgot-password text-right">
-        Schon ein Account?
-        <router-link to="/login">Anmelden?</router-link>
-      </p>
+      <b-button type="submit" class="btn btn-dark btn-lg btn-block"
+        >Registrieren</b-button
+      >
+      <!--b-button type="reset" variant="danger">Reset</b-button-->
     </b-form>
+    <!--b-card class="mt-3" header="Form Data Result">
+      <pre class="m-0">{{ form }}</pre>
+    </b-card-->
   </div>
 </template>
 
 <script>
 export default {
   data() {
-    return {};
+    return {
+      form: {
+        email: "",
+        name: "",
+        vname: "",
+        passwort: "",
+        uni: "",
+      },
+      show: true,
+    };
+  },
+  methods: {
+    onSubmit(event) {
+      event.preventDefault();
+      alert(JSON.stringify(this.form));
+    },
+    onReset(event) {
+      event.preventDefault();
+      // Reset our form values
+      this.form.email = "";
+      this.form.name = "";
+      // Trick to reset/clear native browser form validation state
+      this.show = false;
+      this.$nextTick(() => {
+        this.show = true;
+      });
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.register,
-.vertical-center {
-  width: 20%;
+div {
+  width: 45%;
   height: 100%;
   margin: auto;
 }
-
-.vertical-center {
-  display: flex;
-  text-align: left;
-  justify-content: center;
-  flex-direction: column;
-}
-
-.inner-block {
-  width: 450px;
-  margin: auto;
-  background: #ffffff;
-  box-shadow: 0 14px 80px rgba(34, 35, 58, 0.2);
-  padding: 40px 55px 45px 55px;
-  border-radius: 15px;
-  transition: all 0.3s;
-}
-
-.vertical-center .form-control:focus {
-  border-color: #2554ff;
-  box-shadow: none;
-}
-
-.vertical-center h3 {
-  text-align: center;
-  margin: auto;
-  line-height: 1;
-  padding-bottom: 20px;
-}
-
-label {
-  font-weight: 500;
-}
-
-.register,
-.register a {
-  text-align: center;
-  font-size: 13px;
-  padding-top: 0.5rem;
-  //color: #7a7a7a;
-  margin: auto;
-}
-
-.register a {
-  color: #2554ff;
+button {
+  width: 45%;
+  margin-top: 2rem;
+  margin-left: auto;
+  margin-right: auto;
 }
 </style>
