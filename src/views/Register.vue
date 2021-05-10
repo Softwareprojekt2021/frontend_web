@@ -1,6 +1,7 @@
 <template>
   <div class="register">
     <h3>Registrieren</h3>
+    <!--Die form um die Registrierungs Daten ans Backend zu schicken-->
     <b-form @submit="onSubmit" @reset="onReset" v-if="show">
       <b-form-group
         id="input-group-1"
@@ -84,7 +85,7 @@
     </b-card-->
   </div>
 </template>
-
+<!--Das script gibt der form Variablen in Javascript und eine Methode die, die Werte in einem Alert anzeigt-->
 <script>
 export default {
   data() {
@@ -100,9 +101,10 @@ export default {
     };
   },
   methods: {
-    onSubmit(event) {
+    onSubmit: function (event) {
       event.preventDefault();
       alert(JSON.stringify(this.form));
+      console.log(JSON.stringify(this.form));
     },
     onReset(event) {
       event.preventDefault();
@@ -118,10 +120,10 @@ export default {
   },
 };
 </script>
-
+<!--Die Benötigten css styles für die Seite-->
 <style lang="scss" scoped>
 div {
-  width: 45%;
+  width: 60%;
   height: 100%;
   margin: auto;
 }

@@ -1,6 +1,7 @@
 <template>
   <div class="login" id="login">
     <h3>Login</h3>
+    <!--Die form um die Login Daten ans Backend zu schicken-->
     <b-form @submit="onSubmit" @reset="onReset" v-if="show">
       <b-form-group
         id="input-group-1"
@@ -29,6 +30,7 @@
       <b-button type="submit" class="btn btn-dark btn-lg btn-block"
         >Anmelden</b-button
       >
+      <!--Links zu der Register-Page und zum Passwort-vergessen Page-->
       <div>
         <p class="register text-left mt-2" style="float: left">
           <router-link to="/register">Noch kein Account ?</router-link>
@@ -42,6 +44,7 @@
   </div>
 </template>
 
+<!--Das script gibt der form Variablen in Javascript und eine Methode die, die Werte in einem Alter anzeigt-->
 <script>
 export default {
   data() {
@@ -57,6 +60,11 @@ export default {
     onSubmit(event) {
       event.preventDefault();
       alert(JSON.stringify(this.form));
+      this.localData();
+      location.reload();
+    },
+    localData: function () {
+      localStorage.setItem("Loggedin", true);
     },
     onReset(event) {
       event.preventDefault();
@@ -72,11 +80,11 @@ export default {
   },
 };
 </script>
-
+<!--Die Benötigten css styles für die Seite-->
 <style lang="scss" scoped>
 .login,
 .vertical-center {
-  width: 20%;
+  width: 40%;
   height: 100%;
   margin: auto;
 }

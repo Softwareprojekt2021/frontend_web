@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-navbar toggleable="lg" type="dark" variant="info">
-      <b-navbar-brand href="#">Studibörse</b-navbar-brand>
+      <b-navbar-brand href="/">Studibörse</b-navbar-brand>
 
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
@@ -24,19 +24,20 @@
             >
           </b-nav-form>
 
-          <!--b-nav-item-dropdown right>
-            <Using 'button-content' slot> #comment
+          <b-nav-item-dropdown right v-if="login">
+            <!-- Using 'button-content' slot -->
             <template #button-content>
               <em>User</em>
             </template>
-            <b-dropdown-item href="#">Profile</b-dropdown-item>
-            <b-dropdown-item href="#">Sign Out</b-dropdown-item>
-          </b-nav-item-dropdown-->
+            <b-dropdown-item href="/profile">Profile</b-dropdown-item>
+            <b-dropdown-item @click="OnClick">Sign Out</b-dropdown-item>
+          </b-nav-item-dropdown>
           <b-button
             size="sm"
             href="/login"
             style="color: white"
             class="font-weight-normal"
+            v-if="!login"
             >Login</b-button
           >
         </b-navbar-nav>
@@ -46,7 +47,20 @@
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      login: localStorage.getItem("Loggedin"),
+    };
+  },
+  methods: {
+    OnClick(event) {
+      event.preventDefault();
+      localStorage.removeItem("Loggedin");
+      location.reload();
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
