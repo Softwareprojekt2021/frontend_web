@@ -1,12 +1,12 @@
 <template>
   <div>
-    <h3 align="left">Profile</h3>
-    <p align="left">Profilbild</p>
+    <h3>Profile</h3>
     <b-container class="bv-example-row" @submit="onSubmit">
       <b-row>
         <!--Profilbild mit einem Button zum ändern des Bildes-->
-        <b-col
-          ><b-img
+        <b-col>
+          <p>Profilbild</p>
+          <b-img
             v-bind:src="placeholder"
             height="165"
             width="215"

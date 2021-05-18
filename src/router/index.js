@@ -34,6 +34,16 @@ const routes = [
     name: "Profile",
     component: () => import("../views/Profile.vue"),
   },
+  {
+    path: "/meineangebote",
+    name: "MeineAngebeote",
+    component: () => import("../views/meineangebote.vue"),
+  },
+  {
+    path: "/erstellangebot",
+    name: "ErstellAngebot",
+    component: () => import("../views/ErstellAngebot.vue"),
+  },
 ];
 
 const router = new VueRouter({
