@@ -3,7 +3,6 @@
     <h2>Angebot erstellen</h2>
     <b-container class="bv-example-row" @submit="onSubmit">
       <p>Bilder</p>
-      <br />
       <b-img
         v-bind:src="placeholder"
         height="165"
@@ -21,12 +20,10 @@
           plain
         ></b-form-file>
         <label>Verkaufsart:</label>
-        <br />
         <select v-model="angebot.art">
           <option v-for="art in option" :key="art">{{ art }}</option>
         </select>
         <label>Kategorie:</label>
-        <br />
         <select v-model="angebot.cat">
           <option v-for="cat in category" :key="cat">{{ cat }}</option>
         </select>
@@ -67,6 +64,7 @@
 
 <script>
 import placeholder from "../assets/profile.png";
+import axios from "axios";
 export default {
   data() {
     return {
@@ -80,7 +78,7 @@ export default {
       files: [],
       placeholder: placeholder,
       option: ["Verkauf", "Tausch"],
-      category: ["Literatur", "Mikrocontroller", "Datenträger", "Hardware"],
+      category: [],
     };
   },
   methods: {
@@ -89,6 +87,15 @@ export default {
       alert(JSON.stringify(this.angebot));
       console.log(JSON.stringify(this.angebot));
     },
+  },
+  mounted() {
+    try {
+      axios.get("http://localhost:5000/categories").then((response) => {
+        this.category = response.data;
+      });
+    } catch (e) {
+      console.log(e);
+    }
   },
 };
 </script>

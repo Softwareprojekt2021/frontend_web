@@ -2,7 +2,7 @@
   <div class="register">
     <h3>Registrieren</h3>
     <!--Die form um die Registrierungs Daten ans Backend zu schicken-->
-    <b-form @submit="onSubmit" @reset="onReset" v-if="show">
+    <b-form @submit="onSubmit" v-if="show">
       <b-form-group
         id="input-group-1"
         label="E-Mail Adresse:"
@@ -11,7 +11,7 @@
       >
         <b-form-input
           id="input-1"
-          v-model="form.email"
+          v-model="form.e_mail"
           type="email"
           placeholder="M.Mustermann@email.de"
           required
@@ -21,7 +21,7 @@
       <b-form-group id="input-group-2" label="Nachname:" label-for="input-2">
         <b-form-input
           id="input-2"
-          v-model="form.name"
+          v-model="form.last_name"
           placeholder="Mustermann"
           required
         ></b-form-input>
@@ -30,17 +30,23 @@
       <b-form-group id="input-group-3" label="Vorname:" label-for="input-3">
         <b-form-input
           id="input-3"
-          v-model="form.vname"
+          v-model="form.first_name"
           placeholder="Max"
           required
         ></b-form-input>
       </b-form-group>
 
       <b-form-group id="input-group-4" label="Uni/FH:" label-for="input-4">
+        <select v-model="form.university">
+          <option v-for="uni in universities" :key="uni">{{ uni }}</option>
+        </select>
+      </b-form-group>
+
+      <b-form-group id="input-group-5" label="Studiengang:" label-for="input-6">
         <b-form-input
-          id="input-4"
-          v-model="form.uni"
-          placeholder="Uni/FH"
+          id="input-6"
+          v-model="form.course"
+          placeholder="Studiengang"
           required
         ></b-form-input>
       </b-form-group>
@@ -49,7 +55,7 @@
         <b-form-input
           id="input-5"
           type="password"
-          v-model="form.passwort"
+          v-model="form.password"
           placeholder="Passwort"
           required
         ></b-form-input>
@@ -87,36 +93,42 @@
 </template>
 <!--Das script gibt der form Variablen in Javascript und eine Methode die, die Werte in einem Alert anzeigt-->
 <script>
+import axios from "axios";
+import router from "@/router";
 export default {
   data() {
     return {
       form: {
-        email: "",
-        name: "",
-        vname: "",
-        passwort: "",
-        uni: "",
+        e_mail: "",
+        first_name: "",
+        last_name: "",
+        password: "",
+        university: "",
+        course: "",
       },
+      universities: [],
       show: true,
     };
   },
   methods: {
     onSubmit: function (event) {
       event.preventDefault();
-      alert(JSON.stringify(this.form));
-      console.log(JSON.stringify(this.form));
+      try {
+        axios.post("http://localhost:5000/user", this.form);
+        router.push("/");
+      } catch (e) {
+        console.log(e);
+      }
     },
-    onReset(event) {
-      event.preventDefault();
-      // Reset our form values
-      this.form.email = "";
-      this.form.name = "";
-      // Trick to reset/clear native browser form validation state
-      this.show = false;
-      this.$nextTick(() => {
-        this.show = true;
+  },
+  mounted() {
+    try {
+      axios.get("http://localhost:5000/universities").then((response) => {
+        this.universities = response.data;
       });
-    },
+    } catch (e) {
+      console.log(e);
+    }
   },
 };
 </script>
