@@ -90,12 +90,14 @@ export default {
     };
   },
   methods: {
+    //Request für das Posten des Angebots hierhin.
     onSubmit: function (event) {
       event.preventDefault();
       alert(JSON.stringify(this.angebot));
       console.log(JSON.stringify(this.angebot));
     },
   },
+  //Request für das Getten der Kategorien der Angeboten hierhin.
   mounted() {
     try {
       axios.get("http://localhost:5000/categories").then((response) => {

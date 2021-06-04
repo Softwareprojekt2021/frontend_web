@@ -133,6 +133,7 @@ export default {
     this.fetchData();
   },
   methods: {
+    //Request für die Account Daten hierhin.
     async fetchData() {
       try {
         const res = await fetch("user.json");
@@ -146,6 +147,7 @@ export default {
         console.log(e);
       }
     },
+    //Request für das updaten der Account Daten.
     onSubmit: function (event) {
       event.preventDefault();
       alert(JSON.stringify(this.form));
