@@ -22,7 +22,7 @@
         <b-form-input
           id="input-2"
           type="password"
-          v-model="form.passwort"
+          v-model="form.password"
           placeholder="Passwort"
           required
         ></b-form-input>
@@ -46,22 +46,31 @@
 
 <!--Das script gibt der form Variablen in Javascript und eine Methode die, die Werte in einem Alter anzeigt-->
 <script>
+import axios from "axios";
 export default {
   data() {
     return {
       form: {
         email: "",
-        passwort: "",
+        password: "",
       },
       show: true,
+      data: "",
     };
   },
   methods: {
     onSubmit(event) {
       event.preventDefault();
-      alert(JSON.stringify(this.form));
+      axios.post("http://localhost:5000/login", this.form).then(
+        (response) => {
+          this.data = response;
+          console.log(JSON.stringify(this.data));
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
       this.localData();
-      location.reload();
     },
     localData: function () {
       localStorage.setItem("Loggedin", true);
