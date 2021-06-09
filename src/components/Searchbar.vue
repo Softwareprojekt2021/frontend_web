@@ -24,10 +24,10 @@
             >
           </b-nav-form>
 
-          <b-nav-item-dropdown right v-if="login">
+          <b-nav-item-dropdown right v-if="login && username">
             <!-- Using 'button-content' slot -->
             <template #button-content>
-              <em>User</em>
+              <em>{{username}}</em>
             </template>
             <b-dropdown-item href="/profile">Profile</b-dropdown-item>
             <b-dropdown-item href="/meineangebote"
@@ -50,11 +50,31 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
   data() {
     return {
       login: localStorage.getItem("Loggedin"),
+      username: "palce",
     };
+  },
+  mounted() {
+    const options = {
+      method: "GET",
+      url: "http://localhost:5000/user",
+      headers: {
+        Authorization: "Bearer " + this.login + " ",
+      },
+    };
+    axios
+      .request(options)
+      .then((response) => {
+        console.log(response.data["first_name"]);
+        this.username = response.data["first_name"];
+      })
+      .catch(function (error) {
+        console.error(error);
+      });
   },
   methods: {
     OnClick(event) {
