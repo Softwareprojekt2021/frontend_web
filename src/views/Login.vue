@@ -47,6 +47,7 @@
 <!--Das script gibt der form Variablen in Javascript und eine Methode die, die Werte in einem Alter anzeigt-->
 <script>
 import axios from "axios";
+import router from "@/router";
 export default {
   data() {
     return {
@@ -63,17 +64,28 @@ export default {
       event.preventDefault();
       axios.post("http://localhost:5000/login", this.form).then(
         (response) => {
-          this.data = response;
-          console.log(JSON.stringify(this.data));
+          this.data = response.data;
+          localStorage.setItem("Loggedin", this.data);
+          this.$bvToast.toast(`Erfolgreich Eingelogget`, {
+            title: "Studibörse",
+            autoHideDelay: 5000,
+          });
+          setTimeout(function () {
+            router.go();
+          }, 1500);
+          setTimeout(function () {
+            router.push("/");
+          }, 1490);
         },
+
         (error) => {
           console.log(error);
+          this.$bvToast.toast(`Passwort oder E-Mail falsch`, {
+            title: "Studibörse",
+            autoHideDelay: 5000,
+          });
         }
       );
-      this.localData();
-    },
-    localData: function () {
-      localStorage.setItem("Loggedin", true);
     },
     onReset(event) {
       event.preventDefault();
