@@ -7,7 +7,7 @@
         <b-col>
           <p>Profilbild</p>
           <b-img
-            v-if="!file1"
+            v-if="!form.profile_picture"
             v-bind:src="placeholder"
             height="165"
             width="215"
@@ -23,7 +23,7 @@
             alt="Rounded image"
             v-if="url" />
           <!-- Plain mode -->
-          <b-form-file accept=".jpg, .png" v-model="file1" @change="onFileChange" class="mt-3 ml-5" plain></b-form-file
+          <b-form-file accept=".jpg, .png" v-model="form.profile_picture" @change="onFileChange" class="mt-3 ml-5" plain></b-form-file
         ></b-col>
         <!--Input Felder zum Bearbeiten des Profils-->
         <b-col
@@ -128,8 +128,8 @@ export default {
         first_name: "",
         university: "",
         password: "",
+        profile_picture: "",
       },
-      file1: null,
       url: "",
       placeholder: placeholder,
       login: localStorage.getItem("Loggedin"),
