@@ -51,6 +51,7 @@
 
 <script>
 import axios from "axios";
+import router from "@/router";
 export default {
   data() {
     return {
@@ -79,8 +80,17 @@ export default {
   methods: {
     OnClick(event) {
       event.preventDefault();
+      this.$bvToast.toast(`Erfolgreich Ausgeloggt`, {
+        title: "Studibörse",
+        autoHideDelay: 5000,
+      });
       localStorage.removeItem("Loggedin");
-      location.reload();
+      setTimeout(function () {
+        router.go();
+      }, 1500);
+      setTimeout(function () {
+        router.push("/");
+      }, 1490);
     },
   },
 };
