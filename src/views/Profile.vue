@@ -36,7 +36,7 @@
             >
               <b-form-input
                 id="input-1"
-                v-model="form.email"
+                v-model="form.e_mail"
                 type="email"
                 placeholder="M.Mustermann@email.de"
                 required
@@ -50,7 +50,7 @@
             >
               <b-form-input
                 id="input-2"
-                v-model="form.name"
+                v-model="form.last_name"
                 placeholder="Mustermann"
               ></b-form-input>
             </b-form-group>
@@ -62,7 +62,7 @@
             >
               <b-form-input
                 id="input-3"
-                v-model="form.vname"
+                v-model="form.first_name"
                 placeholder="Max"
               ></b-form-input>
             </b-form-group>
@@ -72,11 +72,9 @@
               label="Uni/FH:"
               label-for="input-4"
             >
-              <b-form-input
-                id="input-4"
-                v-model="form.uni"
-                placeholder="Uni/FH"
-              ></b-form-input>
+              <select v-model="form.university">
+                <option v-for="uni in universities" :key="uni">{{ uni }}</option>
+              </select>
             </b-form-group>
             <b-form-group
               id="input-group-5"
@@ -96,7 +94,7 @@
             >
               <b-form-input
                 id="input-6"
-                v-model="form.npassword"
+                v-model="form.password"
                 placeholder="Neues Passwort"
               ></b-form-input>
             </b-form-group>
@@ -114,39 +112,52 @@
 
 <script>
 import placeholder from "../assets/profile.png";
+import axios from "axios";
 export default {
   data() {
     return {
       form: {
-        email: "",
-        name: "",
-        vname: "",
-        uni: "",
+        e_mail: "",
+        last_name: "",
+        first_name: "",
+        university: "",
         opassword: "",
-        npassword: "",
+        password: "",
       },
       file1: null,
       placeholder: placeholder,
+      login: localStorage.getItem("Loggedin"),
+      universities: [],
     };
   },
   mounted() {
-    this.fetchData();
+    try {
+      axios.get("http://localhost:5000/universities").then((response) => {
+        this.universities = response.data;
+      });
+    } catch (e) {
+      console.log(e);
+    }
+    //Request für die Account Daten hierhin.
+    const options = {
+      method: "GET",
+      url: "http://localhost:5000/user",
+      headers: {
+        Authorization: "Bearer " + this.login + " ",
+      },
+    };
+    axios
+      .request(options)
+      .then((response) => {
+        this.form = response.data;
+        console.log(this.form);
+      })
+      .catch(function (error) {
+        console.error(error);
+      });
+    //this.fetchData();
   },
   methods: {
-    //Request für die Account Daten hierhin.
-    async fetchData() {
-      try {
-        const res = await fetch("user.json");
-        const val = await res.json();
-        console.log(val);
-        this.form.email = val.email;
-        this.form.name = val.name;
-        this.form.vname = val.vname;
-        this.form.uni = val.uni;
-      } catch (e) {
-        console.log(e);
-      }
-    },
     //Request für das updaten der Account Daten.
     onSubmit: function (event) {
       event.preventDefault();
