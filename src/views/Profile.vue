@@ -7,23 +7,23 @@
         <b-col>
           <p>Profilbild</p>
           <b-img
+            v-if="!file1"
             v-bind:src="placeholder"
             height="165"
             width="215"
             align="left"
             rounded=""
             alt="Rounded image" />
-          <!--b-img
-            v-bind:src="file1"
+          <b-img
+            v-bind:src="url"
             height="165"
             width="215"
             align="left"
             rounded=""
             alt="Rounded image"
-            v-if="file1"
-          /-->
+            v-if="url" />
           <!-- Plain mode -->
-          <b-form-file v-model="file1" class="mt-3 ml-5" plain></b-form-file
+          <b-form-file accept=".jpg, .png" v-model="file1" @change="onFileChange" class="mt-3 ml-5" plain></b-form-file
         ></b-col>
         <!--Input Felder zum Bearbeiten des Profils-->
         <b-col
@@ -72,11 +72,15 @@
               label="Uni/FH:"
               label-for="input-4"
             >
-              <select v-model="form.university">
-                <option v-for="uni in universities" :key="uni">{{ uni }}</option>
-              </select>
+              <label>
+                <select v-model="form.university">
+                  <option v-for="uni in universities" :key="uni">
+                    {{ uni }}
+                  </option>
+                </select>
+              </label>
             </b-form-group>
-            <b-form-group
+            <!--b-form-group
               id="input-group-5"
               label="Altes Passwort:"
               label-for="input-5"
@@ -84,9 +88,10 @@
               <b-form-input
                 id="input-5"
                 v-model="form.opassword"
+                type="password"
                 placeholder="Altes Passwort"
               ></b-form-input>
-            </b-form-group>
+            </b-form-group-->
             <b-form-group
               id="input-group-6"
               label="Neues Passwort:"
@@ -95,6 +100,7 @@
               <b-form-input
                 id="input-6"
                 v-model="form.password"
+                type="password"
                 placeholder="Neues Passwort"
               ></b-form-input>
             </b-form-group>
@@ -121,10 +127,10 @@ export default {
         last_name: "",
         first_name: "",
         university: "",
-        opassword: "",
         password: "",
       },
       file1: null,
+      url: "",
       placeholder: placeholder,
       login: localStorage.getItem("Loggedin"),
       universities: [],
@@ -164,6 +170,10 @@ export default {
       alert(JSON.stringify(this.form));
       console.log(JSON.stringify(this.form));
     },
+    onFileChange(e){
+      const file = e.target.files[0];
+      this.url = URL.createObjectURL(file);
+    },
   },
 };
 </script>
@@ -191,7 +201,7 @@ p {
   margin-bottom: 0.5rem;
 }
 .btn-dark {
-  width: 35%;
+  width: fit-content;
   margin: auto;
 }
 </style>

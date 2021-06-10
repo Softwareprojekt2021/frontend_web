@@ -37,9 +37,11 @@
       </b-form-group>
 
       <b-form-group id="input-group-4" label="Uni/FH:" label-for="input-4">
-        <select v-model="form.university">
-          <option v-for="uni in universities" :key="uni">{{ uni }}</option>
-        </select>
+        <label>
+          <select v-model="form.university">
+            <option v-for="uni in universities" :key="uni">{{ uni }}</option>
+          </select>
+        </label>
       </b-form-group>
 
       <b-form-group id="input-group-5" label="Studiengang:" label-for="input-6">
@@ -140,7 +142,7 @@ div {
   margin: auto;
 }
 button {
-  width: 45%;
+  width: fit-content;
   margin-top: 2rem;
   margin-left: auto;
   margin-right: auto;
