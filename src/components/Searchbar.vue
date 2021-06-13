@@ -70,7 +70,6 @@ export default {
     axios
       .request(options)
       .then((response) => {
-        console.log(response.data["first_name"]);
         this.username = response.data["first_name"];
       })
       .catch(function (error) {

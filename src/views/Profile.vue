@@ -23,7 +23,13 @@
             alt="Rounded image"
             v-if="url" />
           <!-- Plain mode -->
-          <b-form-file accept=".jpg, .png" v-model="form.profile_picture" @change="onFileChange" class="mt-3 ml-5" plain></b-form-file
+          <b-form-file
+            accept=".jpg, .png"
+            v-model="form.profile_picture"
+            @change="onFileChange"
+            class="mt-3 ml-5"
+            plain
+          ></b-form-file
         ></b-col>
         <!--Input Felder zum Bearbeiten des Profils-->
         <b-col
@@ -134,6 +140,7 @@ export default {
       placeholder: placeholder,
       login: localStorage.getItem("Loggedin"),
       universities: [],
+      base64: "",
     };
   },
   mounted() {
@@ -156,7 +163,10 @@ export default {
       .request(options)
       .then((response) => {
         this.form = response.data;
-        console.log(this.form);
+        let tmp = "";
+        tmp = this.form.profile_picture;
+        this.form.profile_picture = "data:image/png;base64," + tmp + "";
+        this.url = this.form.profile_picture;
       })
       .catch(function (error) {
         console.error(error);
@@ -167,11 +177,27 @@ export default {
     //Request für das updaten der Account Daten.
     onSubmit: function (event) {
       event.preventDefault();
-      alert(JSON.stringify(this.form));
+      const options = {
+        headers: {
+          Authorization: "Bearer " + this.login + " ",
+        },
+      };
+      axios.put("http://localhost:5000/user", this.form, options);
       console.log(JSON.stringify(this.form));
+      //console.log(this.base64);
     },
-    onFileChange(e){
+    onFileChange(e) {
       const file = e.target.files[0];
+      let reader = new FileReader();
+      reader.onload = (e) => {
+        this.form.profile_picture = e.target.result.split(",")[1];
+        console.log(this.form.profile_picture);
+      };
+      reader.onerror = function (error) {
+        alert(error);
+      };
+      reader.readAsDataURL(file);
+      this.base64 = file;
       this.url = URL.createObjectURL(file);
     },
   },
