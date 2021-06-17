@@ -163,10 +163,13 @@ export default {
       .request(options)
       .then((response) => {
         this.form = response.data;
+        console.log(this.form);
         let tmp = "";
         tmp = this.form.profile_picture;
-        this.form.profile_picture = "data:image/png;base64," + tmp + "";
-        this.url = this.form.profile_picture;
+        if (this.form.profile_picture !== null) {
+          this.form.profile_picture = "data:image/png;base64," + tmp + "";
+          this.url = this.form.profile_picture;
+        }
       })
       .catch(function (error) {
         console.error(error);

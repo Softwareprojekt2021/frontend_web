@@ -1,78 +1,125 @@
 <template>
   <div>
     <h2>Meine Angebote</h2>
-    <b-container>
-      <!--b-row v-for="row in angebote" :key="row">
+    <div v-for="offer in angebote" :key="offer">
+      <b-container v-if="angebote">
+        <!--b-row v-for="row in angebote" :key="row">
         <b-col v-for="items in row" :key="items"> </b-col>
       </b-row-->
-      <b-row>
-        <b-col
-          ><p v-text="angebote.angebot.title"></p>
-          <b-img
-            v-bind:src="placeholder"
-            height="165"
-            width="215"
-            rounded=""
-            alt="Rounded image" />
-          <p v-text="angebote.angebot.betrag"></p
-        ></b-col>
-        <b-col>
-          <p v-text="angebote.angebot.text" class="border"></p>
-        </b-col>
-        <b-col
-          ><b-button href="/edit" type="forward" class="btn btn-dark btn-lg">
-            Angebot bearbeiten
-          </b-button></b-col
-        >
-      </b-row>
-      <b-button
-        href="/erstellangebot"
-        type="forward"
-        class="btn btn-dark btn-lg btn-block"
-      >
-        Angebot erstellen
-      </b-button>
-    </b-container>
+        <b-row>
+          <b-col
+            ><p v-text="offer.title"></p>
+            <b-img
+              v-if="offer.pictures.length === 0"
+              v-bind:src="placeholder"
+              height="165"
+              width="215"
+              rounded=""
+              alt="Rounded image"
+            />
+            <div v-for="image in offer.pictures" :key="image">
+              <b-img
+                :key="image"
+                :src="`data:image/png;base64,` + image"
+                height="165"
+                width="215"
+                rounded=""
+                alt="Rounded image"
+              />
+            </div>
+            <p>{{ offer.price }}€</p></b-col
+          >
+          <b-col>
+            <p v-text="offer.description" class="border"></p>
+          </b-col>
+          <b-col
+            ><b-button
+              :href="`/edit?id=${offer.id}`"
+              type="forward"
+              class="btn btn-dark btn-lg"
+            >
+              Angebot bearbeiten
+            </b-button></b-col
+          >
+        </b-row>
+      </b-container>
+    </div>
+    <b-button
+      href="/erstellangebot"
+      type="forward"
+      class="btn btn-dark btn-lg btn-block"
+    >
+      Angebot erstellen
+    </b-button>
   </div>
 </template>
 
 <script>
 import placeholder from "../assets/profile.png";
+import axios from "axios";
 export default {
   data() {
     return {
       angebote: {
-        angebot: {
-          art: "",
-          cat: "",
-          betrag: "",
-          title: "",
-          text: "",
-        },
+        angebot: {},
       },
       placeholder: placeholder,
+      login: localStorage.getItem("Loggedin"),
     };
   },
   mounted() {
-    this.fetchData();
+    const options = {
+      url: "http://localhost:5000/offer",
+      headers: {
+        Authorization: "Bearer " + this.login + " ",
+      },
+    };
+    //let self = this;
+    //let tmp = "";
+    var i = 0;
+    try {
+      axios.get("http://localhost:5000/offers", options).then((response) => {
+        console.log(response.data);
+        response.data.forEach((f) => {
+          if (i > 0) {
+            this.angebote["angebot" + i + ""] = JSON.parse(JSON.stringify(f));
+            /*tmp = "";
+            tmp = this.angebote["angebot" + i + ""].pictures;
+            if (this.angebote["angebot" + i + ""].pictures.length !== 0) {
+              this.angebote["angebot" + i + ""].pictures =
+                "data:image/png;base64," + tmp + "";
+            }*/
+          } else {
+            this.angebote["angebot"] = JSON.parse(JSON.stringify(f));
+            /*tmp = "";
+            tmp = this.angebote["angebot"].pictures;
+            if (this.angebote["angebot"].pictures.length !== 0) {
+              this.angebote["angebot"].pictures =
+                "data:image/png;base64," + tmp + "";
+            }*/
+          }
+          i++;
+        });
+        /*this.angebote.forEach((a) =>{
+          tmp = "";
+          tmp = a.pictures;
+          if(a.pictures !== null){
+            a.pictures = "data:image/png;base64," + tmp + "";
+
+          }
+        });*/
+        /*tmp = this.form.profile_picture;
+        if (this.form.profile_picture !== null) {
+          this.form.profile_picture = "data:image/png;base64," + tmp + "";
+          this.url = this.form.profile_picture;
+        }*/
+        console.log(this.angebote);
+      });
+    } catch (e) {
+      console.log(e);
+    }
   },
-  methods: {
-    async fetchData() {
-      try {
-        const res = await fetch("angebot.json");
-        const val = await res.json();
-        console.log(val);
-        this.angebote.angebot.art = val.art;
-        this.angebote.angebot.cat = val.cat;
-        this.angebote.angebot.betrag = val.betrag;
-        this.angebote.angebot.text = val.text;
-        this.angebote.angebot.title = val.title;
-        //console.log(JSON.stringify(this.angebote));
-      } catch (e) {
-        console.log(e);
-      }
-    },
-  },
+  methods: {},
   /*computed: {
     rows() {
       var rows = [];
