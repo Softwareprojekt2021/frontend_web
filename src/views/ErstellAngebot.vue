@@ -6,9 +6,7 @@
         <b-col cols="5">
           <p>Bilder</p>
           <b-img
-            v-if="
-              angebot.pictures !== 'undefined' && angebot.pictures.length === 0
-            "
+            v-if="(angebot.pictures || []).length === 0"
             v-bind:src="placeholder"
             height="165"
             width="215"
@@ -132,7 +130,6 @@ export default {
       this.url = [];
       this.angebot.pictures = [];
       const file = e.target.files;
-      //var blob = new Blob(file, { type: "image/jpeg" });
       file.forEach((f) => {
         if (!f.type.match("image.*")) {
           return;

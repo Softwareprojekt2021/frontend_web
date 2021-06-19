@@ -117,8 +117,6 @@
         >
       </b-row>
     </b-container>
-
-    <!--div class="mt-3">Selected file: {{ file1 ? file1.name : "" }}</div-->
   </div>
 </template>
 
@@ -174,7 +172,6 @@ export default {
       .catch(function (error) {
         console.error(error);
       });
-    //this.fetchData();
   },
   methods: {
     //Request für das updaten der Account Daten.
@@ -187,7 +184,6 @@ export default {
       };
       axios.put("http://localhost:5000/user", this.form, options);
       console.log(JSON.stringify(this.form));
-      //console.log(this.base64);
     },
     onFileChange(e) {
       const file = e.target.files[0];
