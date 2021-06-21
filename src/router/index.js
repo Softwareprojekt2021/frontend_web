@@ -44,6 +44,11 @@ const routes = [
     name: "ErstellAngebot",
     component: () => import("../views/ErstellAngebot.vue"),
   },
+  {
+    path: "/angebot",
+    name: "Angebot",
+    component: () => import("../views/angebot.vue"),
+  },
 ];
 
 const router = new VueRouter({

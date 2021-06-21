@@ -8,8 +8,7 @@
           <b-img
             v-if="(angebot.pictures || []).length === 0"
             v-bind:src="placeholder"
-            height="165"
-            width="215"
+            fluid-grow
             rounded=""
             alt="Rounded image"
           />
@@ -17,8 +16,7 @@
             <b-img
               :key="image"
               v-bind:src="image"
-              height="165"
-              width="215"
+              fluid-grow
               align="left"
               rounded=""
               alt="Rounded image"
@@ -84,7 +82,7 @@
 </template>
 
 <script>
-import placeholder from "../assets/profile.png";
+import placeholder from "../assets/product_placeholder.png";
 import axios from "axios";
 export default {
   data() {
@@ -92,7 +90,7 @@ export default {
       angebot: {
         compensation_type: "",
         category: "",
-        price: "",
+        price: "0.00",
         title: "",
         description: "",
         pictures: [],
@@ -163,6 +161,9 @@ export default {
 <style lang="scss">
 .btn-dark {
   width: auto;
+  margin: auto;
+}
+img {
   margin: auto;
 }
 p {

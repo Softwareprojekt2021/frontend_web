@@ -97,9 +97,22 @@ export default {
       event.preventDefault();
       try {
         axios.post("http://localhost:5000/user", this.form);
-        router.push("/");
+        this.$bvToast.toast(`Erfolgreich Registriert`, {
+          title: "Studibörse",
+          autoHideDelay: 5000,
+        });
+        setTimeout(function () {
+          router.go();
+        }, 1500);
+        setTimeout(function () {
+          router.push("/");
+        }, 1490);
       } catch (e) {
         console.log(e);
+        this.$bvToast.toast(`E-Mail wird schon benutzt.`, {
+          title: "Studibörse",
+          autoHideDelay: 5000,
+        });
       }
     },
   },

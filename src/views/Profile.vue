@@ -1,27 +1,23 @@
 <template>
   <div>
-    <h3>Profile</h3>
+    <h2>Profile</h2>
     <b-container class="bv-example-row" @submit="onSubmit">
       <b-row>
         <!--Profilbild mit einem Button zum ändern des Bildes-->
         <b-col>
-          <p>Profilbild</p>
+          <h3>Profilbild</h3>
           <b-img
             v-if="!form.profile_picture"
             v-bind:src="placeholder"
-            height="165"
-            width="215"
-            align="left"
+            fluid-grow
             rounded=""
             alt="Rounded image" />
           <b-img
-            v-bind:src="url"
-            height="165"
-            width="215"
-            align="left"
+            v-bind:src="this.form.profile_picture"
+            fluid-grow
             rounded=""
             alt="Rounded image"
-            v-if="url" />
+            v-if="form.profile_picture" />
           <!-- Plain mode -->
           <b-form-file
             accept=".jpg, .png"
@@ -123,6 +119,7 @@
 <script>
 import placeholder from "../assets/profile.png";
 import axios from "axios";
+import router from "@/router";
 export default {
   data() {
     return {
@@ -134,11 +131,9 @@ export default {
         password: "",
         profile_picture: "",
       },
-      url: "",
       placeholder: placeholder,
       login: localStorage.getItem("Loggedin"),
       universities: [],
-      base64: "",
     };
   },
   mounted() {
@@ -161,12 +156,10 @@ export default {
       .request(options)
       .then((response) => {
         this.form = response.data;
-        console.log(this.form);
         let tmp = "";
         tmp = this.form.profile_picture;
         if (this.form.profile_picture !== null) {
           this.form.profile_picture = "data:image/png;base64," + tmp + "";
-          this.url = this.form.profile_picture;
         }
       })
       .catch(function (error) {
@@ -177,34 +170,39 @@ export default {
     //Request für das updaten der Account Daten.
     onSubmit: function (event) {
       event.preventDefault();
+      this.form.profile_picture = this.form.profile_picture.split(",")[1];
       const options = {
         headers: {
           Authorization: "Bearer " + this.login + " ",
         },
       };
       axios.put("http://localhost:5000/user", this.form, options);
-      console.log(JSON.stringify(this.form));
+      this.$bvToast.toast(`Profil wurde geupdated`, {
+        title: "Studibörse",
+        autoHideDelay: 5000,
+      });
+      setTimeout(function () {
+        router.go();
+      }, 300);
     },
     onFileChange(e) {
       const file = e.target.files[0];
       let reader = new FileReader();
       reader.onload = (e) => {
-        this.form.profile_picture = e.target.result.split(",")[1];
+        this.form.profile_picture = e.target.result;
         console.log(this.form.profile_picture);
       };
       reader.onerror = function (error) {
         alert(error);
       };
       reader.readAsDataURL(file);
-      this.base64 = file;
-      this.url = URL.createObjectURL(file);
     },
   },
 };
 </script>
 
 <style lang="scss">
-h3 {
+h2 {
   margin-left: 2rem;
 }
 .b-from {
@@ -212,7 +210,7 @@ h3 {
   margin: auto;
 }
 img {
-  margin-left: 3rem;
+  margin: auto;
 }
 p {
   margin-left: 3rem;
@@ -228,5 +226,9 @@ p {
 .btn-dark {
   width: fit-content;
   margin: auto;
+}
+h3 {
+  align-content: center;
+  margin-bottom: 2rem;
 }
 </style>

@@ -27,7 +27,7 @@
           <b-nav-item-dropdown right v-if="login && username">
             <!-- Using 'button-content' slot -->
             <template #button-content>
-              <em>{{username}}</em>
+              <em>{{ username }}</em>
             </template>
             <b-dropdown-item href="/profile">Profile</b-dropdown-item>
             <b-dropdown-item href="/meineangebote"
@@ -67,14 +67,14 @@ export default {
         Authorization: "Bearer " + this.login + " ",
       },
     };
-    axios
-      .request(options)
-      .then((response) => {
+    axios.request(options).then(
+      (response) => {
         this.username = response.data["first_name"];
-      })
-      .catch(function (error) {
-        console.error(error);
-      });
+      },
+      (error) => {
+        console.log(error.response.status);
+      }
+    );
   },
   methods: {
     OnClick(event) {

@@ -9,8 +9,7 @@
             <b-img
               v-if="(offer.pictures || []).length === 0"
               v-bind:src="placeholder"
-              height="165"
-              width="215"
+              fluid-grow
               rounded=""
               alt="Rounded image"
             />
@@ -19,8 +18,7 @@
               v-for="image in offer.pictures"
               :key="image"
               :src="`data:image/png;base64,` + image"
-              height="165"
-              width="215"
+              fluid-grow
               rounded=""
               alt="Rounded image"
             />
@@ -54,7 +52,7 @@
 </template>
 
 <script>
-import placeholder from "../assets/profile.png";
+import placeholder from "../assets/product_placeholder.png";
 import axios from "axios";
 export default {
   data() {
@@ -110,6 +108,9 @@ export default {
   border: 4px solid black !important;
 }
 .col {
+  margin: auto;
+}
+img {
   margin: auto;
 }
 </style>
