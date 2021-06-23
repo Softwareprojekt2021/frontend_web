@@ -39,7 +39,7 @@
         </b-row>
       </b-container>
     </div>
-    <div v-else>
+    <div>
       <b-button
         href="/erstellangebot"
         type="forward"

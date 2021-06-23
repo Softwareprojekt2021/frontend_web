@@ -2,7 +2,7 @@
   <div>
     <h2>Sudibörse</h2>
     <div v-if="login">
-      <div v-for="offer in angebote" :key="offer">
+      <div v-for="offer in dangebote" :key="offer">
         <b-container v-if="angebote.angebot">
           <b-row>
             <b-col
@@ -42,6 +42,16 @@
           </b-row>
         </b-container>
       </div>
+      <b-pagination
+        v-model="currentPage"
+        :total-rows="rows"
+        :per-page="perPage"
+        first-text="First"
+        prev-text="Prev"
+        next-text="Next"
+        last-text="Last"
+        @input="paginate(currentPage)"
+      ></b-pagination>
     </div>
   </div>
 </template>
@@ -57,6 +67,13 @@ export default {
       angebote: {
         angebot: {},
       },
+      dangebote: {
+        angebot: {},
+      },
+      response: {},
+      perPage: 3,
+      rows: 1,
+      currentPage: 1,
       placeholder: placeholder,
       login: localStorage.getItem("Loggedin"),
     };
@@ -79,6 +96,9 @@ export default {
             }
             i++;
           });
+          this.response = response.data;
+          this.rows = response.data.length;
+          this.dangebote = response.data.slice(0, 3);
         } else {
           console.log("No data found!");
           this.angebote = JSON.parse("{}");
@@ -89,6 +109,12 @@ export default {
         console.log(error.response.status);
       }
     );
+  },
+  methods: {
+    paginate(currentPage) {
+      const start = (currentPage - 1) * this.perPage;
+      this.dangebote = this.response.slice(start, start + 3);
+    },
   },
 };
 </script>
@@ -102,5 +128,9 @@ export default {
 }
 img {
   margin: auto;
+}
+.pagination {
+  margin: auto;
+  justify-content: center;
 }
 </style>

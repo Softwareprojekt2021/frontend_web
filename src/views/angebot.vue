@@ -25,6 +25,7 @@
           </div>
           <p v-if="angebot.price !== '0.00'">{{ angebot.price }}€</p>
           <p v-else>Tausch</p>
+          <b-button v-on:click="addToWishList">Zur Wishlist hinzufügen</b-button>
         </b-col>
         <b-col>
           <p v-text="angebot.description" class="border"></p>
@@ -52,14 +53,14 @@ export default {
       angebot: [],
       placeholder: placeholder,
       login: localStorage.getItem("Loggedin"),
+      offer_id: "",
     };
   },
   mounted() {
     var url = window.location.href;
-    console.log(url);
     url = url.split("=");
     var id = url[1];
-    console.log(id);
+    this.offer_id = id;
     const options = {
       headers: {
         Authorization: "Bearer " + this.login + " ",
@@ -68,12 +69,17 @@ export default {
     axios.get("http://localhost:5000/offer/" + id + "", options).then(
       (response) => {
         this.angebot = response.data;
-        console.log(this.angebot);
       },
       (error) => {
         console.log(error.response.status);
       }
     );
+  },
+  methods: {
+    addToWishList(){
+      //Post request für die Wishlist.
+      console.log("test");
+    },
   },
 };
 </script>
