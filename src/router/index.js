@@ -49,6 +49,11 @@ const routes = [
     name: "Angebot",
     component: () => import("../views/angebot.vue"),
   },
+  {
+    path: "/chat",
+    name: "Chat",
+    component: () => import("../views/Chat.vue"),
+  },
 ];
 
 const router = new VueRouter({

@@ -13,17 +13,6 @@
 
         <!-- Right aligned nav items -->
         <b-navbar-nav class="ml-auto">
-          <b-nav-form>
-            <b-form-input
-              size="sm"
-              class="mr-sm-2"
-              placeholder="Suchen"
-            ></b-form-input>
-            <b-button size="sm" class="my-2 my-sm-0" type="submit"
-              >Suchen</b-button
-            >
-          </b-nav-form>
-
           <b-nav-item-dropdown right v-if="login && username">
             <!-- Using 'button-content' slot -->
             <template #button-content>
@@ -52,9 +41,12 @@
 <script>
 import axios from "axios";
 import router from "@/router";
+import angebote from "../views/Home.vue";
 export default {
   data() {
     return {
+      search: "",
+      angebot: angebote,
       login: localStorage.getItem("Loggedin"),
       username: "palce",
     };
@@ -90,6 +82,9 @@ export default {
       setTimeout(function () {
         router.push("/");
       }, 1490);
+    },
+    searchAngebote() {
+      this.$refs.home.getfilteredAngebote(this.search);
     },
   },
 };

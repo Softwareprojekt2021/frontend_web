@@ -25,19 +25,30 @@
           </div>
           <p v-if="angebot.price !== '0.00'">{{ angebot.price }}€</p>
           <p v-else>Tausch</p>
-          <b-button v-on:click="addToWishList">Zur Wishlist hinzufügen</b-button>
+          <b-button v-on:click="addToWishList"
+            >Zur Wishlist hinzufügen</b-button
+          >
+          <br />
+          <b-button v-on:click="addToWishList">Mit Anbieter chatten</b-button>
         </b-col>
         <b-col>
           <p v-text="angebot.description" class="border"></p>
         </b-col>
       </b-row>
       <b-row align-h="center">
-        <h3>Kontaktdaten</h3>
+        <b-col>
+          <h3>Verkäufer bewerten:</h3>
+          <b-form-rating v-model="value"> </b-form-rating>
+          <h6>Kommentar:</h6>
+          <b-textarea v-model="comment"></b-textarea>
+          <b-button v-on:click="giveRating">Bewerten</b-button>
+        </b-col>
+      </b-row>
+      <b-row align-h="center">
+        <h3>Kontaktdaten:</h3>
       </b-row>
       <b-row>
-        <b-col>
-          E-Mail: {{angebot.user.e_mail}}
-        </b-col>
+        <b-col v-if="angebot.user.e_mail"> E-Mail: {{ angebot.user.e_mail }} </b-col>
       </b-row>
     </b-container>
   </div>
@@ -54,6 +65,8 @@ export default {
       placeholder: placeholder,
       login: localStorage.getItem("Loggedin"),
       offer_id: "",
+      value: "",
+      comment: "",
     };
   },
   mounted() {
@@ -69,6 +82,7 @@ export default {
     axios.get("http://localhost:5000/offer/" + id + "", options).then(
       (response) => {
         this.angebot = response.data;
+        console.log(this.angebot);
       },
       (error) => {
         console.log(error.response.status);
@@ -76,9 +90,14 @@ export default {
     );
   },
   methods: {
-    addToWishList(){
+    addToWishList() {
       //Post request für die Wishlist.
       console.log("test");
+    },
+    giveRating() {
+      //Post request fürs Bewerten
+      console.log(this.value);
+      console.log(this.comment);
     },
   },
 };
@@ -97,5 +116,8 @@ export default {
 }
 img {
   margin: auto;
+}
+.btn {
+  margin-top: 1rem;
 }
 </style>

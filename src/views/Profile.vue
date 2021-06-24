@@ -6,16 +6,18 @@
         <!--Profilbild mit einem Button zum ändern des Bildes-->
         <b-col>
           <h3>Profilbild</h3>
-          <b-img
+          <b-avatar
             v-if="!form.profile_picture"
             v-bind:src="placeholder"
             fluid-grow
             rounded=""
+            size="16rem"
             alt="Rounded image" />
-          <b-img
+          <b-avatar
             v-bind:src="this.form.profile_picture"
             fluid-grow
             rounded=""
+            size="16rem"
             alt="Rounded image"
             v-if="form.profile_picture" />
           <!-- Plain mode -->
