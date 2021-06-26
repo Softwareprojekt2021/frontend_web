@@ -3,68 +3,115 @@
     <h2>Sudibörse</h2>
     <!--Filter macht derzeit einige fehler wo die Filter optionen
     nicht ins select geladen werden-->
-    <!--view-controls>
+    <!--div v-if="universities && categories">
+      <h6 v-text="`Filter`"></h6>
+      <label v-if="categories">
+        <select v-model="filtered.category">
+          <option disabled selected value="">Kategorie Auswählen</option>
+          <option v-for="cat in categories" :key="cat">{{ cat }}</option>
+        </select>
+      </label>
+      <br />
+      <label>
+        <select v-model="filtered.compensation_type">
+          <option disabled selected value="">Verkaufsart Auswählen</option>
+          <option v-for="art in option" :key="art">
+            {{ art }}
+          </option>
+        </select>
+      </label>
+      <br />
+      <label v-if="universities">
+        <select v-model="filtered.university">
+          <option disabled selected value="">Universität Auswählen</option>
+          <option v-for="uni in universities" :key="uni">
+            {{ uni }}
+          </option>
+        </select>
+      </label>
+
+      <label class="form-check-label">
+        <input
+          class="form-check-input"
+          name="filters"
+          v-model="filtered.min_price"
+        />
+        <span></span>
+      </label>
+
+      <label class="form-check-label">
+        <input
+          class="form-check-input"
+          name="filters"
+          v-model="filtered.max_price"
+        />
+        <span></span>
+      </label>
+    </div-->
+    <div>
       <div>
-        <h6 v-text="`Filter`"></h6>
-        <ul class="list-unstyled">
-          <li class="form-check">
-            <label class="form-check-label" v-if="categories">
-              <select v-model="filtered.category">
-                <option v-for="cat in categories" :key="cat">{{ cat }}</option>
-              </select>
-            </label>
-          </li>
-          <li class="form-check">
-            <label class="form-check-label">
-              <select v-model="filtered.compensation_type">
-                <option v-for="art in option" :key="art">
-                  {{ art }}
-                </option>
-              </select>
-            </label>
-          </li>
-          <li class="form-check">
-            <label class="form-check-label" v-if="universities">
-              <select v-model="filtered.university">
-                <option v-for="uni in universities" :key="uni">
-                  {{ uni }}
-                </option>
-              </select>
-            </label>
-          </li>
-          <li class="form-check">
-            <label class="form-check-label">
-              <input
-                  class="form-check-input"
+        <b-container>
+          <b-row>
+            <b-col>
+              <h6 v-text="`Filter`"></h6>
+              <span>Kategorie</span>
+              <br />
+              <label v-if="categories">
+                <select v-model="filtered.category">
+                  <option v-for="cat in categories" :key="cat">
+                    {{ cat }}
+                  </option>
+                </select>
+              </label>
+              <br />
+              <span>Verkaufsart</span>
+              <br />
+              <label>
+                <select v-model="filtered.compensation_type">
+                  <option v-for="art in option" :key="art">
+                    {{ art }}
+                  </option>
+                </select>
+              </label>
+              <br />
+              <span>Standort</span>
+              <br />
+              <label v-if="universities">
+                <select v-model="filtered.university">
+                  <option v-for="uni in universities" :key="uni">
+                    {{ uni }}
+                  </option>
+                </select>
+              </label>
+              <br />
+              <span>Min. Preis</span>
+              <br />
+              <label>
+                <input
                   name="filters"
                   v-model="filtered.min_price"
-              />
-              <span></span>
-            </label>
-          </li>
-          <li class="form-check">
-            <label class="form-check-label">
-              <input
-                  class="form-check-input"
+                  placeholder="0.00"
+                />
+              </label>
+              <br />
+              <span>Max. Preis</span>
+              <br />
+              <label>
+                <input
                   name="filters"
                   v-model="filtered.max_price"
-              />
-              <span></span>
-            </label>
-          </li>
-        </ul>
+                  placeholder="9999.00"
+                />
+              </label>
+              <br />
+              <b-button class="mr-1" v-on:click="getfilteredAngebote"
+                >Filter Anwenden</b-button
+              >
+              <b-button v-on:click="resetFilter">Filter zurücksetzen</b-button>
+            </b-col>
+          </b-row>
+        </b-container>
       </div>
-      <p>
-        <button
-            class="btn btn-sm btn-secondary"
-            type="button"
-            v-on:click="clearFilters"
-        >
-          Clear Filters
-        </button>
-      </p>
-    </view-controls-->
-    <div>
       <div v-for="offer in dangebote" :key="offer">
         <b-container v-if="angebote.angebot">
           <b-row>
@@ -147,7 +194,7 @@ export default {
       placeholder: placeholder,
       categories: [],
       universities: [],
-      option: ["Verkauf", "Tausch"],
+      option: ["Verkauf", "Tausch",""],
       //search: ["btnText"],
       login: localStorage.getItem("Loggedin"),
     };
@@ -155,7 +202,6 @@ export default {
   mounted() {
     var options = "";
     var i = 0;
-    console.log(this.login);
     if (this.login !== null) {
       options = {
         headers: {
@@ -189,7 +235,6 @@ export default {
         }
       );
     } else {
-      console.log("test21");
       axios.get("http://localhost:5000/offers/recommend").then(
         (response) => {
           console.log(response);
@@ -236,14 +281,25 @@ export default {
       const start = (currentPage - 1) * this.perPage;
       this.dangebote = this.response.slice(start, start + 3);
     },
-    /*getfilteredAngebote(search) {
+    getfilteredAngebote() {
+      var url = "http://localhost:5000/offers/filtered?";
+      var keys = Object.keys(this.filtered);
+      var j = 0;
+      for (var filopt in this.filtered) {
+        if (this.filtered[filopt]) {
+          url += keys[j] + "=" + this.filtered[filopt] + "&";
+        }
+        console.log(this.filtered[filopt]);
+        j++;
+      }
+      console.log(url);
       const options = {
         headers: {
           Authorization: "Bearer " + this.login + " ",
         },
       };
       var i = 0;
-      axios.get("http://localhost:5000/offers/filtered", options).then(
+      axios.get(url, options).then(
         (response) => {
           if (response.statusText !== "NO CONTENT") {
             response.data.forEach((f) => {
@@ -269,7 +325,72 @@ export default {
           console.log(error.response.status);
         }
       );
-    },*/
+    },
+    resetFilter() {
+      var options = "";
+      var i = 0;
+      if (this.login !== null) {
+        options = {
+          headers: {
+            Authorization: "Bearer " + this.login + " ",
+          },
+        };
+        axios.get("http://localhost:5000/offers/recommend", options).then(
+          (response) => {
+            if (response.statusText !== "NO CONTENT") {
+              response.data.forEach((f) => {
+                if (i > 0) {
+                  this.angebote["angebot" + i + ""] = JSON.parse(
+                    JSON.stringify(f)
+                  );
+                } else {
+                  this.angebote["angebot"] = JSON.parse(JSON.stringify(f));
+                }
+                i++;
+              });
+              this.response = response.data;
+              this.rows = response.data.length;
+              this.dangebote = response.data.slice(0, 3);
+            } else {
+              console.log("No data found!");
+              this.angebote = JSON.parse("{}");
+              console.log(this.angebote);
+            }
+          },
+          (error) => {
+            console.log(error.response.status);
+          }
+        );
+      } else {
+        axios.get("http://localhost:5000/offers/recommend").then(
+          (response) => {
+            console.log(response);
+            if (response.statusText !== "NO CONTENT") {
+              response.data.forEach((f) => {
+                if (i > 0) {
+                  this.angebote["angebot" + i + ""] = JSON.parse(
+                    JSON.stringify(f)
+                  );
+                } else {
+                  this.angebote["angebot"] = JSON.parse(JSON.stringify(f));
+                }
+                i++;
+              });
+              this.response = response.data;
+              this.rows = response.data.length;
+              this.dangebote = response.data.slice(0, 3);
+            } else {
+              console.log("No data found!");
+              this.angebote = JSON.parse("{}");
+              console.log(this.angebote);
+            }
+          },
+          (error) => {
+            console.log(error.response.status);
+          }
+        );
+      }
+    },
   },
 };
 </script>
