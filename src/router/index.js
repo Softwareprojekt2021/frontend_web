@@ -54,6 +54,11 @@ const routes = [
     name: "Chat",
     component: () => import("../views/Chat.vue"),
   },
+  {
+    path: "/editoffer",
+    name: "EditOffer",
+    component: () => import("../views/editoffer.vue"),
+  },
 ];
 
 const router = new VueRouter({

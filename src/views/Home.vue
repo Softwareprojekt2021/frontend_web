@@ -3,54 +3,9 @@
     <h2>Sudibörse</h2>
     <!--Filter macht derzeit einige fehler wo die Filter optionen
     nicht ins select geladen werden-->
-    <!--div v-if="universities && categories">
-      <h6 v-text="`Filter`"></h6>
-      <label v-if="categories">
-        <select v-model="filtered.category">
-          <option disabled selected value="">Kategorie Auswählen</option>
-          <option v-for="cat in categories" :key="cat">{{ cat }}</option>
-        </select>
-      </label>
-      <br />
-      <label>
-        <select v-model="filtered.compensation_type">
-          <option disabled selected value="">Verkaufsart Auswählen</option>
-          <option v-for="art in option" :key="art">
-            {{ art }}
-          </option>
-        </select>
-      </label>
-      <br />
-      <label v-if="universities">
-        <select v-model="filtered.university">
-          <option disabled selected value="">Universität Auswählen</option>
-          <option v-for="uni in universities" :key="uni">
-            {{ uni }}
-          </option>
-        </select>
-      </label>
-
-      <label class="form-check-label">
-        <input
-          class="form-check-input"
-          name="filters"
-          v-model="filtered.min_price"
-        />
-        <span></span>
-      </label>
-
-      <label class="form-check-label">
-        <input
-          class="form-check-input"
-          name="filters"
-          v-model="filtered.max_price"
-        />
-        <span></span>
-      </label>
-    </div-->
     <div>
       <div>
-        <b-container>
+        <b-container v-if="angebote.angebot">
           <b-row>
             <b-col>
               <h6 v-text="`Filter`"></h6>
@@ -153,6 +108,7 @@
         </b-container>
       </div>
       <b-pagination
+        v-if="angebote.angebot"
         v-model="currentPage"
         :total-rows="rows"
         :per-page="perPage"
@@ -194,7 +150,7 @@ export default {
       placeholder: placeholder,
       categories: [],
       universities: [],
-      option: ["Verkauf", "Tausch",""],
+      option: ["Verkauf", "Tausch", ""],
       //search: ["btnText"],
       login: localStorage.getItem("Loggedin"),
     };

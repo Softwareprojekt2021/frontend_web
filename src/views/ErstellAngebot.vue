@@ -122,7 +122,6 @@ export default {
         .catch(function (error) {
           console.error(error);
         });
-      console.log(JSON.stringify(this.angebot));
     },
     onFileChange(e) {
       this.url = [];

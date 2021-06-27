@@ -29,7 +29,7 @@
           </b-col>
           <b-col
             ><b-button
-              :href="`/edit?id=${offer.id}`"
+              :href="`/editoffer?id=${offer.id}`"
               type="forward"
               class="btn btn-dark btn-lg"
             >
@@ -40,6 +40,7 @@
       </b-container>
     </div>
     <b-pagination
+      v-if="angebote.angebot"
       v-model="currentPage"
       :total-rows="rows"
       :per-page="perPage"
@@ -91,7 +92,6 @@ export default {
     var i = 0;
     try {
       axios.get("http://localhost:5000/offers", options).then((response) => {
-        console.log(response);
         if (response.statusText !== "NO CONTENT") {
           response.data.forEach((f) => {
             if (i > 0) {

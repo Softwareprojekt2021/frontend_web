@@ -14,7 +14,7 @@
             size="16rem"
             alt="Rounded image" />
           <b-avatar
-            v-bind:src="this.form.profile_picture"
+            v-bind:src="form.profile_picture"
             fluid-grow
             rounded=""
             size="16rem"
@@ -158,9 +158,10 @@ export default {
       .request(options)
       .then((response) => {
         this.form = response.data;
+        console.log(this.form);
         let tmp = "";
         tmp = this.form.profile_picture;
-        if (this.form.profile_picture !== null) {
+        if (tmp !== undefined) {
           this.form.profile_picture = "data:image/png;base64," + tmp + "";
         }
       })
@@ -192,7 +193,6 @@ export default {
       let reader = new FileReader();
       reader.onload = (e) => {
         this.form.profile_picture = e.target.result;
-        console.log(this.form.profile_picture);
       };
       reader.onerror = function (error) {
         alert(error);
