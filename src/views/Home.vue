@@ -5,7 +5,7 @@
     nicht ins select geladen werden-->
     <div>
       <div>
-        <b-container v-if="angebote.angebot">
+        <b-container>
           <b-row>
             <b-col>
               <h6 v-text="`Filter`"></h6>
@@ -158,7 +158,7 @@ export default {
   mounted() {
     var options = "";
     var i = 0;
-    if (this.login !== null) {
+    if (this.login !== undefined) {
       options = {
         headers: {
           Authorization: "Bearer " + this.login + " ",

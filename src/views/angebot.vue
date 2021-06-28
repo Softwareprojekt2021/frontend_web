@@ -16,8 +16,7 @@
             <b-img
               :key="image"
               :src="`data:image/png;base64,` + image"
-              height="165"
-              width="215"
+              fluid-grow
               align="left"
               rounded=""
               alt="Rounded image"
@@ -29,13 +28,13 @@
             >Zur Wishlist hinzufügen</b-button
           >
           <br />
-          <b-button v-on:click="addToWishList">Mit Anbieter chatten</b-button>
+          <b-button v-on:click="toChat">Mit Anbieter chatten</b-button>
         </b-col>
         <b-col>
           <p v-text="angebot.description" class="border"></p>
         </b-col>
       </b-row>
-      <b-row align-h="center">
+      <!--b-row align-h="center">
         <b-col>
           <h3>Verkäufer bewerten:</h3>
           <b-form-rating v-model="value"> </b-form-rating>
@@ -43,12 +42,14 @@
           <b-textarea v-model="comment"></b-textarea>
           <b-button v-on:click="giveRating">Bewerten</b-button>
         </b-col>
-      </b-row>
+      </b-row-->
       <b-row align-h="center">
         <h3>Kontaktdaten:</h3>
       </b-row>
       <b-row>
-        <b-col v-if="angebot.user.e_mail"> E-Mail: {{ angebot.user.e_mail }} </b-col>
+        <b-col v-if="angebot.user.e_mail">
+          E-Mail: {{ angebot.user.e_mail }}
+        </b-col>
       </b-row>
     </b-container>
   </div>
@@ -57,11 +58,14 @@
 <script>
 import placeholder from "../assets/product_placeholder.png";
 import axios from "axios";
+import router from "@/router";
 
 export default {
   data() {
     return {
-      angebot: [],
+      angebot: {
+        id: "",
+      },
       placeholder: placeholder,
       login: localStorage.getItem("Loggedin"),
       offer_id: "",
@@ -92,12 +96,58 @@ export default {
   methods: {
     addToWishList() {
       //Post request für die Wishlist.
-      console.log("test");
+      const options = {
+        method: "POST",
+        url: "http://localhost:5000/watchlist/" + this.offer_id + "",
+        headers: {
+          Authorization: "Bearer " + this.login + " ",
+        },
+      };
+      axios.request(options).then(
+        (response) => {
+          console.log(response.data);
+          this.$bvToast.toast(`Zur Wishlist Hinzugefügt`, {
+            title: "Studibörse",
+            autoHideDelay: 5000,
+          });
+        },
+        (error) => {
+          console.error(error);
+        }
+      );
     },
-    giveRating() {
+    /*giveRating() {
       //Post request fürs Bewerten
       console.log(this.value);
       console.log(this.comment);
+    },*/
+    toChat() {
+      var url = window.location.href;
+      url = url.split("=");
+      var id = url[1];
+      const options = {
+        method: "POST",
+        url: "http://localhost:5000/message/" + this.offer_id + "/create",
+        headers: {
+          Authorization: "Bearer " + this.login + " ",
+        },
+      };
+      axios.request(options).then(
+        (response) => {
+          console.log(response.data);
+          this.$bvToast.toast(`Sie werden zum Chat weiter geleitet`, {
+            title: "Studibörse",
+            autoHideDelay: 5000,
+          });
+          setTimeout(function () {
+            console.log(id);
+            router.push("/chat?id=" + id);
+          }, 1000);
+        },
+        (error) => {
+          console.error(error);
+        }
+      );
     },
   },
 };

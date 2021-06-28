@@ -4,7 +4,7 @@
 
     <b-container fluid>
       <b-row>
-        <b-col md="3" xl="2">
+        <!--b-col md="3" xl="2">
           <h2>Chats</h2>
 
           <b-list-group>
@@ -14,31 +14,49 @@
               Max Mustermann
             </b-list-group-item>
           </b-list-group>
-        </b-col>
+        </b-col-->
         <b-col class="chat-content">
           <div class="chat-messages">
             <ul class="list-unstyled">
-              <!--b-media tag="li" class="my-4">
-                <b-img
+              <b-media
+                tag="li"
+                class="my-4"
+                v-for="message in msgGet"
+                :key="message"
+              >
+                <!--b-img
                   slot="aside"
                   blank
                   blank-color="pink"
                   width="64"
                   alt="Placeholder - username"
-                ></b-img>
-
-                <h5 class="mt-0 mb-1">Header msg</h5>
-                <p class="mb-0">Body text</p>
-              </b-media-->
+                ></b-img-->
+                <p
+                  v-if="myid === message.user_id"
+                  class="mb-0 mr-5"
+                  style="float: right"
+                  v-text="message.text"
+                ></p>
+                <p
+                  v-else
+                  class="mb-0 ml-5"
+                  style="float: left"
+                  v-text="message.text"
+                ></p>
+              </b-media>
             </ul>
           </div>
           <div class="chat-input">
             <div class="chat-input__box">
               <b-input-group>
-                <b-input-group-text slot="prepend">{{ username }}</b-input-group-text>
-                <b-form-input></b-form-input>
+                <b-input-group-text slot="prepend">{{
+                  username
+                }}</b-input-group-text>
+                <b-form-input v-model="msg.text"></b-form-input>
                 <b-input-group-append>
-                  <b-button variant="success">Send message</b-button>
+                  <b-button variant="success" v-on:click="sentMsg"
+                    >Send message</b-button
+                  >
                 </b-input-group-append>
               </b-input-group>
             </div>
@@ -51,6 +69,7 @@
 
 <script>
 import axios from "axios";
+//import router from "@/router";
 
 export default {
   components: {},
@@ -64,6 +83,11 @@ export default {
       },
       login: localStorage.getItem("Loggedin"),
       username: "",
+      myid: "",
+      msg: {
+        text: "",
+      },
+      msgGet: {},
     };
   },
   mounted() {
@@ -76,12 +100,73 @@ export default {
     };
     axios.request(options).then(
       (response) => {
+        console.log(response.data);
+        this.myid = response.data["id"];
         this.username = response.data["first_name"];
       },
       (error) => {
         console.log(error.response.status);
       }
     );
+    var url = window.location.href;
+    url = url.split("=");
+    var id = url[1];
+    const options2 = {
+      headers: {
+        Authorization: "Bearer " + this.login + " ",
+      },
+    };
+    axios.get("http://localhost:5000/message/" + id + "", options2).then(
+      (response) => {
+        console.log(response.data);
+        this.msgGet = response.data;
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
+    setInterval(this.myTimer, 10000);
+  },
+  methods: {
+    sentMsg() {
+      var url = window.location.href;
+      url = url.split("=");
+      var id = url[1];
+      const options = {
+        headers: {
+          Authorization: "Bearer " + this.login + " ",
+        },
+      };
+      axios
+        .post("http://localhost:5000/message/" + id + "", this.msg, options)
+        .then(
+          (response) => {
+            console.log(response.data);
+          },
+          (error) => {
+            console.error(error);
+          }
+        );
+    },
+    myTimer() {
+      var url = window.location.href;
+      url = url.split("=");
+      var id = url[1];
+      const options2 = {
+        headers: {
+          Authorization: "Bearer " + this.login + " ",
+        },
+      };
+      axios.get("http://localhost:5000/message/" + id + "", options2).then(
+        (response) => {
+          console.log(response.data);
+          this.msgGet = response.data;
+        },
+        (error) => {
+          console.error(error);
+        }
+      );
+    },
   },
 };
 </script>
