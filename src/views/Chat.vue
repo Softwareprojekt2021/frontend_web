@@ -32,7 +32,7 @@
                   alt="Placeholder - username"
                 ></b-img-->
                 <p
-                  v-if="msgGet.user.id === myid"
+                  v-if="myid === message.user_id"
                   class="mb-0 mr-5"
                   style="float: right"
                   v-text="message.text"
@@ -88,6 +88,7 @@ export default {
         text: "",
       },
       msgGet: {},
+      user_1: {},
     };
   },
   mounted() {
@@ -100,7 +101,6 @@ export default {
     };
     axios.request(options).then(
       (response) => {
-        console.log(response.data);
         this.myid = response.data["id"];
         this.username = response.data["first_name"];
       },
@@ -118,8 +118,8 @@ export default {
     };
     axios.get("http://localhost:5000/message/" + id + "", options2).then(
       (response) => {
-        console.log(response.data);
         this.msgGet = response.data;
+        this.user_1 = this.msgGet.user;
       },
       (error) => {
         console.error(error);
@@ -181,8 +181,10 @@ $header-nav-height: 58px;
 $chat-input-height: 60px;
 $chat-view-sticky-height: $chat-input-height + $header-nav-height;
 .chat-content {
+  margin-top: 6rem;
   border-left: 1px solid rgba(0, 0, 0, 0.05);
   border-right: 1px solid rgba(0, 0, 0, 0.05);
+  overflow-y: hidden;
   .chat-messages {
     position: sticky;
     top: $header-nav-height;

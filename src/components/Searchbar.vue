@@ -23,6 +23,7 @@
               >Meine Angebote</b-dropdown-item
             >
             <b-dropdown-item href="/wishlist">Watchlist</b-dropdown-item>
+            <b-dropdown-item href="/chats">Chats</b-dropdown-item>
             <b-dropdown-item @click="OnClick">Sign Out</b-dropdown-item>
           </b-nav-item-dropdown>
           <b-button
@@ -94,5 +95,8 @@ export default {
 <style lang="scss" scoped>
 button {
   margin-right: 1rem;
+}
+.dropdown-menu {
+  overflow-y: hidden;
 }
 </style>

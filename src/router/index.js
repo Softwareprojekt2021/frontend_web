@@ -64,6 +64,11 @@ const routes = [
     name: "Wishlist",
     component: () => import("../views/wishlist.vue"),
   },
+  {
+    path: "/chats",
+    name: "Chats",
+    component: () => import("../views/chats.vue"),
+  },
 ];
 
 const router = new VueRouter({
