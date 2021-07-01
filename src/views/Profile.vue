@@ -84,6 +84,18 @@
                 </select>
               </label>
             </b-form-group>
+            <b-form-group
+              id="input-group-7"
+              label="Studiengang:"
+              label-for="input-6"
+            >
+              <b-form-input
+                id="input-7"
+                v-model="form.course"
+                placeholder="Studiengang"
+                required
+              ></b-form-input>
+            </b-form-group>
             <!--b-form-group
               id="input-group-5"
               label="Altes Passwort:"
@@ -132,6 +144,7 @@ export default {
         university: "",
         password: "",
         profile_picture: "",
+        course: "",
       },
       placeholder: placeholder,
       login: localStorage.getItem("Loggedin"),

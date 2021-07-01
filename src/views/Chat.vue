@@ -21,7 +21,7 @@
               <b-media
                 tag="li"
                 class="my-4"
-                v-for="message in msgGet"
+                v-for="message in msgGet.conversation"
                 :key="message"
               >
                 <!--b-img
@@ -32,7 +32,7 @@
                   alt="Placeholder - username"
                 ></b-img-->
                 <p
-                  v-if="myid === message.user_id"
+                  v-if="msgGet.user.id === myid"
                   class="mb-0 mr-5"
                   style="float: right"
                   v-text="message.text"
@@ -125,7 +125,7 @@ export default {
         console.error(error);
       }
     );
-    setInterval(this.myTimer, 10000);
+    setInterval(this.myTimer, 5000);
   },
   methods: {
     sentMsg() {
@@ -142,6 +142,7 @@ export default {
         .then(
           (response) => {
             console.log(response.data);
+            //this.msgGet = response.data;
           },
           (error) => {
             console.error(error);
