@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>Meine Wishlist</h2>
+    <h2>Meine Watchlist</h2>
     <div v-if="angebote.angebot">
       <b-container v-for="offer in dangebote" :key="offer">
         <b-row>
@@ -27,8 +27,15 @@
           <b-col>
             <p v-text="offer.description" class="border"></p>
           </b-col>
-          <b-col
-            ><b-button
+          <b-col>
+            <b-button
+              :href="`/angebot?id=${offer.id}`"
+              type="forward"
+              class="btn btn-dark btn-lg"
+            >
+              Angebot ansehen
+            </b-button>
+            <b-button
               v-b-modal.modal-1
               variant="danger"
               class="btn btn-lg btn-block"
@@ -173,5 +180,8 @@ export default {
 }
 img {
   margin: auto;
+}
+.btn{
+  margin-top: 1rem;
 }
 </style>

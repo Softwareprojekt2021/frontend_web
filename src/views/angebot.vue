@@ -25,7 +25,7 @@
           <p v-if="angebot.price !== '0.00'">{{ angebot.price }}€</p>
           <p v-else>Tausch</p>
           <b-button v-on:click="addToWishList"
-            >Zur Wishlist hinzufügen</b-button
+            >Zur Watchlist hinzufügen</b-button
           >
           <br />
           <b-button v-on:click="toChat">Mit Anbieter chatten</b-button>

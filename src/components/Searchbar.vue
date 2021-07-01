@@ -22,7 +22,7 @@
             <b-dropdown-item href="/meineangebote"
               >Meine Angebote</b-dropdown-item
             >
-            <b-dropdown-item href="/wishlist">Wishlist</b-dropdown-item>
+            <b-dropdown-item href="/wishlist">Watchlist</b-dropdown-item>
             <b-dropdown-item @click="OnClick">Sign Out</b-dropdown-item>
           </b-nav-item-dropdown>
           <b-button
