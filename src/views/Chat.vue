@@ -35,14 +35,22 @@
                   v-if="myid === message.user_id"
                   class="mb-0 mr-5"
                   style="float: right"
-                  v-text="message.text"
-                ></p>
-                <p
-                  v-else
-                  class="mb-0 ml-5"
-                  style="float: left"
-                  v-text="message.text"
-                ></p>
+                >
+                  {{ message.text }}
+                  <b-button
+                    variant="light"
+                    v-on:click="deletemsg(message.message_id)"
+                    ><b-icon icon="trash" aria-hidden="true"></b-icon
+                  ></b-button>
+                </p>
+                <p v-else class="mb-0 ml-5" style="float: left">
+                  <b-button
+                    variant="light"
+                    v-on:click="deletemsg(message.message_id)"
+                    ><b-icon icon="trash" aria-hidden="true"></b-icon
+                  ></b-button>
+                  {{ message.text }}
+                </p>
               </b-media>
             </ul>
           </div>
@@ -167,6 +175,30 @@ export default {
           console.error(error);
         }
       );
+    },
+    deletemsg(msgid) {
+      console.log(msgid);
+      var url = window.location.href;
+      url = url.split("=");
+      var id = url[1];
+      const options1 = {
+        headers: {
+          Authorization: "Bearer " + this.login + " ",
+        },
+      };
+      axios
+        .delete(
+          "http://localhost:5000/message/" + id + "/" + msgid + "",
+          options1
+        )
+        .then(
+          (response) => {
+            console.log(response.data);
+          },
+          (error) => {
+            console.error(error);
+          }
+        );
     },
   },
 };
