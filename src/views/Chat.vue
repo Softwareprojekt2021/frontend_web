@@ -42,15 +42,15 @@
                     v-on:click="deletemsg(message.message_id)"
                     ><b-icon icon="trash" aria-hidden="true"></b-icon
                   ></b-button>
-                </p>
-                <p v-else class="mb-0 ml-5" style="float: left">
+                <br>{{message.timestamp}}</p>
+                <p v-if="myid !== message.user_id" class="mb-0 ml-5" style="float: left">
                   <b-button
                     variant="light"
                     v-on:click="deletemsg(message.message_id)"
                     ><b-icon icon="trash" aria-hidden="true"></b-icon
                   ></b-button>
                   {{ message.text }}
-                </p>
+                  <br>{{message.timestamp}}</p>
               </b-media>
             </ul>
           </div>
@@ -149,7 +149,7 @@ export default {
         .post("http://localhost:5000/message/" + id + "", this.msg, options)
         .then(
           (response) => {
-            console.log(response.data);
+            console.log(response);
             //this.msgGet = response.data;
           },
           (error) => {
@@ -168,7 +168,6 @@ export default {
       };
       axios.get("http://localhost:5000/message/" + id + "", options2).then(
         (response) => {
-          console.log(response.data);
           this.msgGet = response.data;
         },
         (error) => {
