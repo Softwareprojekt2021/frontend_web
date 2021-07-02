@@ -44,11 +44,6 @@
                   ></b-button>
                 <br>{{message.timestamp}}</p>
                 <p v-if="myid !== message.user_id" class="mb-0 ml-5" style="float: left">
-                  <b-button
-                    variant="light"
-                    v-on:click="deletemsg(message.message_id)"
-                    ><b-icon icon="trash" aria-hidden="true"></b-icon
-                  ></b-button>
                   {{ message.text }}
                   <br>{{message.timestamp}}</p>
               </b-media>
@@ -225,6 +220,7 @@ $chat-view-sticky-height: $chat-input-height + $header-nav-height;
   }
   .chat-input {
     height: $chat-input-height;
+    margin-top: 2rem;
     .chat-input__box {
       margin-top: 15px;
     }
