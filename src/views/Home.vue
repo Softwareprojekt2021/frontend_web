@@ -158,7 +158,8 @@ export default {
   mounted() {
     var options = "";
     var i = 0;
-    if (this.login !== undefined) {
+    console.log(this.login);
+    if (this.login) {
       options = {
         headers: {
           Authorization: "Bearer " + this.login + " ",
@@ -193,7 +194,6 @@ export default {
     } else {
       axios.get("http://localhost:5000/offers/recommend").then(
         (response) => {
-          console.log(response);
           if (response.statusText !== "NO CONTENT") {
             response.data.forEach((f) => {
               if (i > 0) {
