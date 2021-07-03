@@ -49,6 +49,9 @@
       <b-row>
         <b-col v-if="angebot.user.e_mail">
           E-Mail: {{ angebot.user.e_mail }}
+          <p></p>
+          <h3>Verkäufer Bewertung</h3>
+          <b-form-rating v-model="rating" readonly> </b-form-rating>
         </b-col>
       </b-row>
     </b-container>
@@ -71,6 +74,7 @@ export default {
       offer_id: "",
       value: "",
       comment: "",
+      rating: "",
     };
   },
   mounted() {
@@ -87,6 +91,19 @@ export default {
       (response) => {
         this.angebot = response.data;
         console.log(this.angebot);
+        axios
+          .get(
+            "http://localhost:5000/rating/" + response.data.user.id + "",
+            options
+          )
+          .then(
+            (response) => {
+              this.rating = response.data.average_rating;
+            },
+            (error) => {
+              console.log(error.response.status);
+            }
+          );
       },
       (error) => {
         console.log(error.response.status);
