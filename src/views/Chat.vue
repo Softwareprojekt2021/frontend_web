@@ -21,17 +21,6 @@
         >
       </b-modal>
       <b-row>
-        <!--b-col md="3" xl="2">
-          <h2>Chats</h2>
-
-          <b-list-group>
-            <b-list-group-item
-              class="d-flex justify-content-between align-items-center"
-            >
-              Max Mustermann
-            </b-list-group-item>
-          </b-list-group>
-        </b-col-->
         <b-col class="chat-content">
           <div class="chat-messages">
             <ul class="list-unstyled">
@@ -41,13 +30,6 @@
                 v-for="message in msgGet.conversation"
                 :key="message"
               >
-                <!--b-img
-                  slot="aside"
-                  blank
-                  blank-color="pink"
-                  width="64"
-                  alt="Placeholder - username"
-                ></b-img-->
                 <p
                   v-if="myid === message.user_id"
                   class="mb-0 mr-5"
