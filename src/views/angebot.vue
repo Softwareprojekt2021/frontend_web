@@ -90,7 +90,6 @@ export default {
     axios.get("http://localhost:5000/offer/" + id + "", options).then(
       (response) => {
         this.angebot = response.data;
-        console.log(this.angebot);
         axios
           .get(
             "http://localhost:5000/rating/" + response.data.user.id + "",

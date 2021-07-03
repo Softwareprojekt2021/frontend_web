@@ -84,6 +84,7 @@
 <script>
 import placeholder from "../assets/product_placeholder.png";
 import axios from "axios";
+import router from "@/router";
 export default {
   data() {
     return {
@@ -118,6 +119,13 @@ export default {
         .post("http://localhost:5000/offer", this.angebot, options)
         .then((response) => {
           console.log(response);
+          this.$bvToast.toast(`Angebot wurde erstellt`, {
+            title: "Studibörse",
+            autoHideDelay: 5000,
+          });
+          setTimeout(function () {
+            router.push("/meineangebote");
+          }, 1000);
         })
         .catch(function (error) {
           console.error(error);

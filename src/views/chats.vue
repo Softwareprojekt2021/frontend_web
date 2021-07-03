@@ -40,7 +40,6 @@ export default {
     };
     axios.request(options).then(
       (response) => {
-        console.log(response.data);
         this.chats = response.data;
       },
       (error) => {

@@ -171,7 +171,6 @@ export default {
       .request(options)
       .then((response) => {
         this.form = response.data;
-        console.log(this.form);
         let tmp = "";
         tmp = this.form.profile_picture;
         if (tmp !== undefined) {
