@@ -92,7 +92,7 @@
             <p class="my-4">
               Sind Sie sicher das Sie das Angebot löschen wollen?
             </p>
-            <b-button @click="hideModal">Nein</b-button>
+            <b-button v-on:click="hideModal">Nein</b-button>
             <b-button variant="danger" v-on:click="deleteOffer" style="float: right">Ja</b-button>
           </b-modal>
         </b-col>
@@ -148,6 +148,9 @@ export default {
     }
   },
   methods: {
+    hideModal() {
+      this.$refs["my-modal"].hide();
+    },
     //Request für das Posten des Angebots hierhin.
     onSubmit: function (event) {
       event.preventDefault();
@@ -217,9 +220,6 @@ export default {
       setTimeout(function () {
         router.push("/meineangebote");
       }, 1000);
-    },
-    hideModal() {
-      this.$refs["my-modal"].hide();
     },
   },
 };

@@ -133,7 +133,7 @@ export default {
   },
   methods: {
     hideModal() {
-      this.$refs["my-modal"].hide();
+      this.$root.$emit('bv::hide::modal', 'modal-1', '#btnShow')
     },
     paginate(currentPage) {
       const start = (currentPage - 1) * this.perPage;

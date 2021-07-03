@@ -3,6 +3,23 @@
     <HeaderNavigation />
 
     <b-container fluid>
+      <b-button v-b-modal.modal-1>Bewerten</b-button>
+      <b-modal
+        ref="my-modal"
+        id="modal-1"
+        hide-footer
+        title="Verkäufer Bewerten"
+      >
+        <b-form-rating v-model="ratings.rating"> </b-form-rating>
+        <br />
+        <!--h6>Kommentar:</h6>
+        <b-textarea v-model="comment"></b-textarea>
+        <br /-->
+        <b-button variant="danger" @click="hideModal">Nein</b-button>
+        <b-button variant="success" v-on:click="giveRating" style="float: right"
+          >Absenden</b-button
+        >
+      </b-modal>
       <b-row>
         <!--b-col md="3" xl="2">
           <h2>Chats</h2>
@@ -42,10 +59,16 @@
                     v-on:click="deletemsg(message.message_id)"
                     ><b-icon icon="trash" aria-hidden="true"></b-icon
                   ></b-button>
-                <br>{{message.timestamp}}</p>
-                <p v-if="myid !== message.user_id" class="mb-0 ml-5" style="float: left">
+                  <br />{{ message.timestamp }}
+                </p>
+                <p
+                  v-if="myid !== message.user_id"
+                  class="mb-0 ml-5"
+                  style="float: left"
+                >
                   {{ message.text }}
-                  <br>{{message.timestamp}}</p>
+                  <br />{{ message.timestamp }}
+                </p>
               </b-media>
             </ul>
           </div>
@@ -92,6 +115,10 @@ export default {
       },
       msgGet: {},
       user_1: {},
+      ratings: {
+        rating: "",
+      },
+      comment: "",
     };
   },
   mounted() {
@@ -128,9 +155,46 @@ export default {
         console.error(error);
       }
     );
+    /*axios
+      .get("http://localhost:5000/rating/" + this.msgGet.user.id + "", options2)
+      .then(
+        (response) => {
+          console.log(response.data);
+          this.value = response.data;
+        },
+        (error) => {
+          console.error(error);
+        }
+      );*/
     setInterval(this.myTimer, 5000);
   },
   methods: {
+    hideModal() {
+      this.$root.$emit("bv::hide::modal", "modal-1", "#btnShow");
+    },
+    giveRating() {
+      //Post request fürs Bewerten
+      const options = {
+        headers: {
+          Authorization: "Bearer " + this.login + " ",
+        },
+      };
+      console.log(this.msgGet.offer.user.id);
+      axios
+        .post(
+          "http://localhost:5000/rating/" + this.msgGet.offer.user.id + "",
+          this.ratings,
+          options
+        )
+        .then(
+          (respone) => {
+            console.log(respone);
+          },
+          (error) => {
+            console.error(error);
+          }
+        );
+    },
     sentMsg() {
       var url = window.location.href;
       url = url.split("=");
