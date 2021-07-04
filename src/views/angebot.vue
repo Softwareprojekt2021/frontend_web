@@ -87,7 +87,7 @@ export default {
         Authorization: "Bearer " + this.login + " ",
       },
     };
-    axios.get("http://localhost:5000/offer/" + id + "", options).then(
+    axios.get("https://studiboerse.germanywestcentral.cloudapp.azure.com/offer/" + id + "", options).then(
       (response) => {
         this.angebot = response.data;
         axios
@@ -114,7 +114,7 @@ export default {
       //Post request für die Wishlist.
       const options = {
         method: "POST",
-        url: "http://localhost:5000/watchlist/" + this.offer_id + "",
+        url: "https://studiboerse.germanywestcentral.cloudapp.azure.com/watchlist/" + this.offer_id + "",
         headers: {
           Authorization: "Bearer " + this.login + " ",
         },
@@ -143,7 +143,7 @@ export default {
       var id = url[1];
       const options = {
         method: "POST",
-        url: "http://localhost:5000/message/" + this.offer_id + "/create",
+        url: "https://studiboerse.germanywestcentral.cloudapp.azure.com/message/" + this.offer_id + "/create",
         headers: {
           Authorization: "Bearer " + this.login + " ",
         },

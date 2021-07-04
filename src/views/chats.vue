@@ -33,7 +33,7 @@ export default {
   mounted() {
     const options = {
       method: "GET",
-      url: "http://localhost:5000/messages",
+      url: "https://studiboerse.germanywestcentral.cloudapp.azure.com/messages",
       headers: {
         Authorization: "Bearer " + this.login + " ",
       },

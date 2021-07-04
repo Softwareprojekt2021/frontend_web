@@ -106,7 +106,7 @@ export default {
   mounted() {
     const options = {
       method: "GET",
-      url: "http://localhost:5000/user",
+      url: "https://studiboerse.germanywestcentral.cloudapp.azure.com/user",
       headers: {
         Authorization: "Bearer " + this.login + " ",
       },
@@ -128,7 +128,7 @@ export default {
         Authorization: "Bearer " + this.login + " ",
       },
     };
-    axios.get("http://localhost:5000/message/" + id + "", options2).then(
+    axios.get("https://studiboerse.germanywestcentral.cloudapp.azure.com/" + id + "", options2).then(
       (response) => {
         this.msgGet = response.data;
         this.user_1 = this.msgGet.user;
@@ -164,7 +164,7 @@ export default {
       console.log(this.msgGet.offer.user.id);
       axios
         .post(
-          "http://localhost:5000/rating/" + this.msgGet.offer.user.id + "",
+          "https://studiboerse.germanywestcentral.cloudapp.azure.com/" + this.msgGet.offer.user.id + "",
           this.ratings,
           options
         )
@@ -187,7 +187,7 @@ export default {
         },
       };
       axios
-        .post("http://localhost:5000/message/" + id + "", this.msg, options)
+        .post("https://studiboerse.germanywestcentral.cloudapp.azure.com/" + id + "", this.msg, options)
         .then(
           (response) => {
             console.log(response);
@@ -207,7 +207,7 @@ export default {
           Authorization: "Bearer " + this.login + " ",
         },
       };
-      axios.get("http://localhost:5000/message/" + id + "", options2).then(
+      axios.get("https://studiboerse.germanywestcentral.cloudapp.azure.com/" + id + "", options2).then(
         (response) => {
           this.msgGet = response.data;
         },
@@ -228,7 +228,7 @@ export default {
       };
       axios
         .delete(
-          "http://localhost:5000/message/" + id + "/" + msgid + "",
+          "https://studiboerse.germanywestcentral.cloudapp.azure.com/" + id + "/" + msgid + "",
           options1
         )
         .then(

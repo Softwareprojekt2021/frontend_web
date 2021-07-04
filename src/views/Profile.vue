@@ -153,16 +153,20 @@ export default {
   },
   mounted() {
     try {
-      axios.get("http://localhost:5000/universities").then((response) => {
-        this.universities = response.data;
-      });
+      axios
+        .get(
+          "https://studiboerse.germanywestcentral.cloudapp.azure.com/universities"
+        )
+        .then((response) => {
+          this.universities = response.data;
+        });
     } catch (e) {
       console.log(e);
     }
     //Request für die Account Daten hierhin.
     const options = {
       method: "GET",
-      url: "http://localhost:5000/user",
+      url: "https://studiboerse.germanywestcentral.cloudapp.azure.com/user",
       headers: {
         Authorization: "Bearer " + this.login + " ",
       },
@@ -170,6 +174,7 @@ export default {
     axios
       .request(options)
       .then((response) => {
+        console.log(response.data);
         this.form = response.data;
         let tmp = "";
         tmp = this.form.profile_picture;
@@ -185,13 +190,29 @@ export default {
     //Request für das updaten der Account Daten.
     onSubmit: function (event) {
       event.preventDefault();
-      this.form.profile_picture = this.form.profile_picture.split(",")[1];
+      try {
+        this.form.profile_picture = this.form.profile_picture.split(",")[1];
+      } catch (e) {
+        console.log(e);
+      }
+
       const options = {
         headers: {
           Authorization: "Bearer " + this.login + " ",
         },
       };
-      axios.put("http://localhost:5000/user", this.form, options);
+      axios
+        .put(
+          "https://studiboerse.germanywestcentral.cloudapp.azure.com/user",
+          this.form,
+          options
+        )
+        .then((respone) => {
+          console.log(respone);
+        })
+        .catch(function (e) {
+          console.log(e);
+        });
       this.$bvToast.toast(`Profil wurde geupdated`, {
         title: "Studibörse",
         autoHideDelay: 5000,

@@ -110,13 +110,13 @@ export default {
     onSubmit: function (event) {
       event.preventDefault();
       const options = {
-        url: "http://localhost:5000/offer",
+        url: "https://studiboerse.germanywestcentral.cloudapp.azure.com/offer",
         headers: {
           Authorization: "Bearer " + this.login + " ",
         },
       };
       axios
-        .post("http://localhost:5000/offer", this.angebot, options)
+        .post("https://studiboerse.germanywestcentral.cloudapp.azure.com/offer", this.angebot, options)
         .then((response) => {
           console.log(response);
           this.$bvToast.toast(`Angebot wurde erstellt`, {
@@ -155,7 +155,7 @@ export default {
   //Request für das Getten der Kategorien der Angeboten hierhin.
   mounted() {
     try {
-      axios.get("http://localhost:5000/categories").then((response) => {
+      axios.get("https://studiboerse.germanywestcentral.cloudapp.azure.com/categories").then((response) => {
         this.category = response.data;
       });
     } catch (e) {

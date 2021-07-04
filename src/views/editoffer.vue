@@ -131,7 +131,7 @@ export default {
         Authorization: "Bearer " + this.login + " ",
       },
     };
-    axios.get("http://localhost:5000/offer/" + id + "", options).then(
+    axios.get("https://studiboerse.germanywestcentral.cloudapp.azure.com/offer/" + id + "", options).then(
       (response) => {
         this.angebot = response.data;
       },
@@ -140,7 +140,7 @@ export default {
       }
     );
     try {
-      axios.get("http://localhost:5000/categories").then((response) => {
+      axios.get("https://studiboerse.germanywestcentral.cloudapp.azure.com/categories").then((response) => {
         this.category = response.data;
       });
     } catch (e) {
@@ -155,13 +155,13 @@ export default {
     onSubmit: function (event) {
       event.preventDefault();
       const options = {
-        url: "http://localhost:5000/offer",
+        url: "https://studiboerse.germanywestcentral.cloudapp.azure.com/offer",
         headers: {
           Authorization: "Bearer " + this.login + " ",
         },
       };
       axios
-        .put("http://localhost:5000/offer", this.angebot, options)
+        .put("https://studiboerse.germanywestcentral.cloudapp.azure.com/offer", this.angebot, options)
         .then((response) => {
           console.log(response);
         })
@@ -203,7 +203,7 @@ export default {
         },
       };
       axios
-        .delete("http://localhost:5000/offer/" + this.offer_id + "", options)
+        .delete("https://studiboerse.germanywestcentral.cloudapp.azure.com/offer/" + this.offer_id + "", options)
         .then(
           (response) => {
             console.log(response);

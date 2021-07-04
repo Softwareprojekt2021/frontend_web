@@ -62,7 +62,7 @@ export default {
   methods: {
     onSubmit(event) {
       event.preventDefault();
-      axios.post("http://localhost:5000/login", this.form).then(
+      axios.post("https://studiboerse.germanywestcentral.cloudapp.azure.com/login", this.form).then(
         (response) => {
           this.data = response.data;
           localStorage.setItem("Loggedin", this.data);

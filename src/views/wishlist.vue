@@ -107,8 +107,8 @@ export default {
     };
     var i = 0;
     try {
-      axios.get("http://localhost:5000/watchlist", options).then((response) => {
-        if (response.statusText !== "NO CONTENT") {
+      axios.get("https://studiboerse.germanywestcentral.cloudapp.azure.com/watchlist", options).then((response) => {
+        if (response.statusText !== "NO CONTENT") { try {
           response.data.forEach((f) => {
             if (i > 0) {
               this.angebote["angebot" + i + ""] = JSON.parse(JSON.stringify(f));
@@ -117,6 +117,10 @@ export default {
             }
             i++;
           });
+        } catch (e) {
+          console.log(e);
+        }
+
           this.response = response.data;
           this.rows = response.data.length;
           this.dangebote = response.data.slice(0, 3);
@@ -145,7 +149,7 @@ export default {
           Authorization: "Bearer " + this.login + " ",
         },
       };
-      axios.delete("http://localhost:5000/watchlist/" + id + "", options).then(
+      axios.delete("https://studiboerse.germanywestcentral.cloudapp.azure.com/watchlist/" + id + "", options).then(
         (response) => {
           console.log(response);
         },

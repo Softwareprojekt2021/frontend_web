@@ -59,8 +59,13 @@
           type="password"
           v-model="form.password"
           placeholder="Passwort"
+          :state="passwortState"
+          aria-describedby="input-live-help input-live-feedback"
           required
         ></b-form-input>
+        <b-form-invalid-feedback id="input-live-feedback">
+          Mindestens 8 Zeichen für das Passwort
+        </b-form-invalid-feedback>
       </b-form-group>
 
       <b-button type="submit" class="btn btn-dark btn-lg btn-block"
@@ -78,6 +83,11 @@
 import axios from "axios";
 import router from "@/router";
 export default {
+  computed: {
+    passwortState() {
+      return this.form.password.length > 7 ? true : false;
+    },
+  },
   data() {
     return {
       form: {
@@ -96,7 +106,7 @@ export default {
     onSubmit: function (event) {
       event.preventDefault();
       try {
-        axios.post("http://localhost:5000/user", this.form);
+        axios.post("https://studiboerse.germanywestcentral.cloudapp.azure.com/user", this.form);
         this.$bvToast.toast(`Erfolgreich Registriert`, {
           title: "Studibörse",
           autoHideDelay: 5000,
@@ -118,7 +128,7 @@ export default {
   },
   mounted() {
     try {
-      axios.get("http://localhost:5000/universities").then((response) => {
+      axios.get("https://studiboerse.germanywestcentral.cloudapp.azure.com/universities").then((response) => {
         this.universities = response.data;
       });
     } catch (e) {

@@ -158,76 +158,96 @@ export default {
   mounted() {
     var options = "";
     var i = 0;
-    console.log(this.login);
-    if (this.login) {
+    if (this.login !== null) {
       options = {
         headers: {
           Authorization: "Bearer " + this.login + " ",
         },
       };
-      axios.get("http://localhost:5000/offers/recommend", options).then(
-        (response) => {
-          if (response.statusText !== "NO CONTENT") {
-            response.data.forEach((f) => {
-              if (i > 0) {
-                this.angebote["angebot" + i + ""] = JSON.parse(
-                  JSON.stringify(f)
-                );
-              } else {
-                this.angebote["angebot"] = JSON.parse(JSON.stringify(f));
+      axios
+        .get(
+          "https://studiboerse.germanywestcentral.cloudapp.azure.com/offers/recommend",
+          options
+        )
+        .then(
+          (response) => {
+            if (response.statusText !== "NO CONTENT") {
+              try {
+                response.data.forEach((f) => {
+                  if (i > 0) {
+                    this.angebote["angebot" + i + ""] = JSON.parse(
+                      JSON.stringify(f)
+                    );
+                  } else {
+                    this.angebote["angebot"] = JSON.parse(JSON.stringify(f));
+                  }
+                  i++;
+                });
+              } catch (e) {
+                console.log(e);
               }
-              i++;
-            });
-            this.response = response.data;
-            this.rows = response.data.length;
-            this.dangebote = response.data.slice(0, 3);
-          } else {
-            console.log("No data found!");
-            this.angebote = JSON.parse("{}");
-            console.log(this.angebote);
+              this.response = response.data;
+              this.rows = response.data.length;
+              this.dangebote = response.data.slice(0, 3);
+            } else {
+              console.log("No data found!");
+              this.angebote = JSON.parse("{}");
+              console.log(this.angebote);
+            }
+          },
+          (error) => {
+            console.log(error.response.status);
           }
-        },
-        (error) => {
-          console.log(error.response.status);
-        }
-      );
+        );
     } else {
-      axios.get("http://localhost:5000/offers/recommend").then(
-        (response) => {
-          if (response.statusText !== "NO CONTENT") {
-            response.data.forEach((f) => {
-              if (i > 0) {
-                this.angebote["angebot" + i + ""] = JSON.parse(
-                  JSON.stringify(f)
-                );
-              } else {
-                this.angebote["angebot"] = JSON.parse(JSON.stringify(f));
-              }
-              i++;
-            });
-            this.response = response.data;
-            this.rows = response.data.length;
-            this.dangebote = response.data.slice(0, 3);
-          } else {
-            console.log("No data found!");
-            this.angebote = JSON.parse("{}");
-            console.log(this.angebote);
+      axios
+        .get(
+          "https://studiboerse.germanywestcentral.cloudapp.azure.com/offers/recommend"
+        )
+        .then(
+          (response) => {
+            if (response.statusText !== "NO CONTENT") {
+              response.data.forEach((f) => {
+                if (i > 0) {
+                  this.angebote["angebot" + i + ""] = JSON.parse(
+                    JSON.stringify(f)
+                  );
+                } else {
+                  this.angebote["angebot"] = JSON.parse(JSON.stringify(f));
+                }
+                i++;
+              });
+              this.response = response.data;
+              this.rows = response.data.length;
+              this.dangebote = response.data.slice(0, 3);
+            } else {
+              console.log("No data found!");
+              this.angebote = JSON.parse("{}");
+              console.log(this.angebote);
+            }
+          },
+          (error) => {
+            console.log(error.response.status);
           }
-        },
-        (error) => {
-          console.log(error.response.status);
-        }
-      );
+        );
     }
     try {
-      axios.get("http://localhost:5000/categories").then((response) => {
-        this.categories = response.data;
-        this.categories[this.categories.length] = "";
-      });
-      axios.get("http://localhost:5000/universities").then((response) => {
-        this.universities = response.data;
-        this.universities[this.universities.length] = "";
-      });
+      axios
+        .get(
+          "https://studiboerse.germanywestcentral.cloudapp.azure.com/categories"
+        )
+        .then((response) => {
+          this.categories = response.data;
+          this.categories[this.categories.length] = "";
+        });
+      axios
+        .get(
+          "https://studiboerse.germanywestcentral.cloudapp.azure.com/universities"
+        )
+        .then((response) => {
+          this.universities = response.data;
+          this.universities[this.universities.length] = "";
+        });
     } catch (e) {
       console.log(e);
     }
@@ -238,17 +258,16 @@ export default {
       this.dangebote = this.response.slice(start, start + 3);
     },
     getfilteredAngebote() {
-      var url = "http://localhost:5000/offers/filtered?";
+      var url =
+        "https://studiboerse.germanywestcentral.cloudapp.azure.com/offers/filtered?";
       var keys = Object.keys(this.filtered);
       var j = 0;
       for (var filopt in this.filtered) {
         if (this.filtered[filopt]) {
           url += keys[j] + "=" + this.filtered[filopt] + "&";
         }
-        console.log(this.filtered[filopt]);
         j++;
       }
-      console.log(url);
       const options = {
         headers: {
           Authorization: "Bearer " + this.login + " ",
@@ -274,7 +293,6 @@ export default {
           } else {
             console.log("No data found!");
             this.angebote = JSON.parse("{}");
-            console.log(this.angebote);
           }
         },
         (error) => {
@@ -291,60 +309,73 @@ export default {
             Authorization: "Bearer " + this.login + " ",
           },
         };
-        axios.get("http://localhost:5000/offers/recommend", options).then(
-          (response) => {
-            if (response.statusText !== "NO CONTENT") {
-              response.data.forEach((f) => {
-                if (i > 0) {
-                  this.angebote["angebot" + i + ""] = JSON.parse(
-                    JSON.stringify(f)
-                  );
-                } else {
-                  this.angebote["angebot"] = JSON.parse(JSON.stringify(f));
+        axios
+          .get(
+            "https://studiboerse.germanywestcentral.cloudapp.azure.com/offers/recommend",
+            options
+          )
+          .then(
+            (response) => {
+              if (response.statusText !== "NO CONTENT") {
+                try {
+                  response.data.forEach((f) => {
+                    if (i > 0) {
+                      this.angebote["angebot" + i + ""] = JSON.parse(
+                        JSON.stringify(f)
+                      );
+                    } else {
+                      this.angebote["angebot"] = JSON.parse(JSON.stringify(f));
+                    }
+                    i++;
+                  });
+                } catch (e) {
+                  console.log(e);
                 }
-                i++;
-              });
-              this.response = response.data;
-              this.rows = response.data.length;
-              this.dangebote = response.data.slice(0, 3);
-            } else {
-              console.log("No data found!");
-              this.angebote = JSON.parse("{}");
-              console.log(this.angebote);
+
+                this.response = response.data;
+                this.rows = response.data.length;
+                this.dangebote = response.data.slice(0, 3);
+              } else {
+                console.log("No data found!");
+                this.angebote = JSON.parse("{}");
+              }
+            },
+            (error) => {
+              console.log(error.response.status);
             }
-          },
-          (error) => {
-            console.log(error.response.status);
-          }
-        );
+          );
       } else {
-        axios.get("http://localhost:5000/offers/recommend").then(
-          (response) => {
-            console.log(response);
-            if (response.statusText !== "NO CONTENT") {
-              response.data.forEach((f) => {
-                if (i > 0) {
-                  this.angebote["angebot" + i + ""] = JSON.parse(
-                    JSON.stringify(f)
-                  );
-                } else {
-                  this.angebote["angebot"] = JSON.parse(JSON.stringify(f));
-                }
-                i++;
-              });
-              this.response = response.data;
-              this.rows = response.data.length;
-              this.dangebote = response.data.slice(0, 3);
-            } else {
-              console.log("No data found!");
-              this.angebote = JSON.parse("{}");
-              console.log(this.angebote);
+        axios
+          .get(
+            "https://studiboerse.germanywestcentral.cloudapp.azure.com/offers/recommend"
+          )
+          .then(
+            (response) => {
+              console.log(response);
+              if (response.statusText !== "NO CONTENT") {
+                response.data.forEach((f) => {
+                  if (i > 0) {
+                    this.angebote["angebot" + i + ""] = JSON.parse(
+                      JSON.stringify(f)
+                    );
+                  } else {
+                    this.angebote["angebot"] = JSON.parse(JSON.stringify(f));
+                  }
+                  i++;
+                });
+                this.response = response.data;
+                this.rows = response.data.length;
+                this.dangebote = response.data.slice(0, 3);
+              } else {
+                console.log("No data found!");
+                this.angebote = JSON.parse("{}");
+                console.log(this.angebote);
+              }
+            },
+            (error) => {
+              console.log(error.response.status);
             }
-          },
-          (error) => {
-            console.log(error.response.status);
-          }
-        );
+          );
       }
     },
   },

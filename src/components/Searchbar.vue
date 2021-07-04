@@ -56,7 +56,7 @@ export default {
   mounted() {
     const options = {
       method: "GET",
-      url: "http://localhost:5000/user",
+      url: "https://studiboerse.germanywestcentral.cloudapp.azure.com/user",
       headers: {
         Authorization: "Bearer " + this.login + " ",
       },
