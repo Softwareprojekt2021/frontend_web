@@ -9,7 +9,8 @@
         </b-col>
         <b-col>
           <p>
-            {{ chat.offer.user.first_name }} {{ chat.offer.user.last_name }}
+           Verkäufer: {{ chat.offer.user.first_name }} {{ chat.offer.user.last_name }} <br/>
+            Käufer: {{chat.user.first_name}} {{chat.user.last_name}}
           </p>
         </b-col>
         <b-col>

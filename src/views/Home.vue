@@ -9,6 +9,16 @@
           <b-row>
             <b-col>
               <h6 v-text="`Filter`"></h6>
+              <span>Title</span>
+              <br />
+              <label>
+                <input
+                    name="filters"
+                    v-model="filtered.title"
+                    placeholder=""
+                />
+              </label>
+              <br />
               <span>Kategorie</span>
               <br />
               <label v-if="categories">
@@ -142,6 +152,7 @@ export default {
         category: "",
         university: "",
         compensation_type: "",
+        title: "",
       },
       response: {},
       perPage: 3,
@@ -150,7 +161,7 @@ export default {
       placeholder: placeholder,
       categories: [],
       universities: [],
-      option: ["Verkauf", "Tausch", ""],
+      option: ["Bar", "Tausch", ""],
       //search: ["btnText"],
       login: localStorage.getItem("Loggedin"),
     };

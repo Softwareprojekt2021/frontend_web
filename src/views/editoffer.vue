@@ -113,7 +113,7 @@ export default {
         id: this.offer_id,
         sold: false,
       },
-      option: ["Verkauf", "Tausch"],
+      option: ["Bar", "Tausch"],
       placeholder: placeholder,
       login: localStorage.getItem("Loggedin"),
       offer_id: "",

@@ -100,7 +100,7 @@ export default {
       url: [],
       placeholder: placeholder,
       login: localStorage.getItem("Loggedin"),
-      option: ["Verkauf", "Tausch"],
+      option: ["Bar", "Tausch"],
       category: [],
       tmpimg: [],
     };
