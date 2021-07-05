@@ -87,34 +87,46 @@ export default {
         Authorization: "Bearer " + this.login + " ",
       },
     };
-    axios.get("https://studiboerse.germanywestcentral.cloudapp.azure.com/offer/" + id + "", options).then(
-      (response) => {
-        this.angebot = response.data;
-        axios
-          .get(
-            "http://localhost:5000/rating/" + response.data.user.id + "",
-            options
-          )
-          .then(
-            (response) => {
-              this.rating = response.data.average_rating;
-            },
-            (error) => {
-              console.log(error.response.status);
-            }
-          );
-      },
-      (error) => {
-        console.log(error.response.status);
-      }
-    );
+    axios
+      .get(
+        "https://studiboerse.germanywestcentral.cloudapp.azure.com/offer/" +
+          id +
+          "",
+        options
+      )
+      .then(
+        (response) => {
+          this.angebot = response.data;
+          axios
+            .get(
+              "https://studiboerse.germanywestcentral.cloudapp.azure.com/rating/" +
+                response.data.user.id +
+                "",
+              options
+            )
+            .then(
+              (response) => {
+                this.rating = response.data.rating;
+              },
+              (error) => {
+                console.log(error.response);
+              }
+            );
+        },
+        (error) => {
+          console.log(error.response.status);
+        }
+      );
   },
   methods: {
     addToWishList() {
       //Post request für die Wishlist.
       const options = {
         method: "POST",
-        url: "https://studiboerse.germanywestcentral.cloudapp.azure.com/watchlist/" + this.offer_id + "",
+        url:
+          "https://studiboerse.germanywestcentral.cloudapp.azure.com/watchlist/" +
+          this.offer_id +
+          "",
         headers: {
           Authorization: "Bearer " + this.login + " ",
         },
@@ -138,12 +150,13 @@ export default {
       console.log(this.comment);
     },*/
     toChat() {
-      var url = window.location.href;
-      url = url.split("=");
-      var id = url[1];
+      var id = "";
       const options = {
         method: "POST",
-        url: "https://studiboerse.germanywestcentral.cloudapp.azure.com/message/" + this.offer_id + "/create",
+        url:
+          "https://studiboerse.germanywestcentral.cloudapp.azure.com/message/" +
+          this.offer_id +
+          "/create",
         headers: {
           Authorization: "Bearer " + this.login + " ",
         },
@@ -151,13 +164,14 @@ export default {
       axios.request(options).then(
         (response) => {
           console.log(response.data);
+          id = response.data;
           this.$bvToast.toast(`Sie werden zum Chat weiter geleitet`, {
             title: "Studibörse",
             autoHideDelay: 5000,
           });
           setTimeout(function () {
             console.log(id);
-            router.push("/chat?id=" + id);
+            router.push("/chat?id=" + id.chat_id);
           }, 1000);
         },
         (error) => {

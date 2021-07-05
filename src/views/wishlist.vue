@@ -36,29 +36,11 @@
               Angebot ansehen
             </b-button>
             <b-button
-              v-b-modal.modal-1
               variant="danger"
               class="btn btn-lg btn-block"
-              >Aus der Wishlist entfernen</b-button
+              v-on:click="removeWishlist(offer.id)"
+              >Aus der Watchlist entfernen</b-button
             >
-            <b-modal
-              ref="my-modal"
-              id="modal-1"
-              hide-footer
-              title="Angebot aus Wishlist entfernen"
-            >
-              <p class="my-4">
-                Sind Sie sicher das Sie das Angebot aus der Wishlist entfernen
-                wollen?
-              </p>
-              <b-button v-on:click="hideModal">Nein</b-button>
-              <b-button
-                variant="danger"
-                v-on:click="removeWishlist(offer.id)"
-                style="float: right"
-                >Ja</b-button
-              >
-            </b-modal>
           </b-col>
         </b-row>
       </b-container>
@@ -157,7 +139,7 @@ export default {
           console.log(error.response.status);
         }
       );
-      this.$refs["my-modal"].hide();
+      this.$root.$emit('bv::hide::modal', 'modal-1', '#btnShow')
       this.$bvToast.toast(`Angebot wurde aus der Wishlist entfernt`, {
         title: "Studibörse",
         autoHideDelay: 5000,
