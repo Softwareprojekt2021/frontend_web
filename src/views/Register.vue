@@ -106,7 +106,10 @@ export default {
     onSubmit: function (event) {
       event.preventDefault();
       try {
-        axios.post("https://studiboerse.germanywestcentral.cloudapp.azure.com/user", this.form);
+        axios.post(
+          "https://studiboerse.germanywestcentral.cloudapp.azure.com/user",
+          this.form
+        );
         this.$bvToast.toast(`Erfolgreich Registriert`, {
           title: "Studibörse",
           autoHideDelay: 5000,
@@ -128,9 +131,13 @@ export default {
   },
   mounted() {
     try {
-      axios.get("https://studiboerse.germanywestcentral.cloudapp.azure.com/universities").then((response) => {
-        this.universities = response.data;
-      });
+      axios
+        .get(
+          "https://studiboerse.germanywestcentral.cloudapp.azure.com/universities"
+        )
+        .then((response) => {
+          this.universities = response.data;
+        });
     } catch (e) {
       console.log(e);
     }

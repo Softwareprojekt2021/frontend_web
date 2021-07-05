@@ -62,30 +62,35 @@ export default {
   methods: {
     onSubmit(event) {
       event.preventDefault();
-      axios.post("https://studiboerse.germanywestcentral.cloudapp.azure.com/login", this.form).then(
-        (response) => {
-          this.data = response.data;
-          localStorage.setItem("Loggedin", this.data);
-          this.$bvToast.toast(`Erfolgreich Eingelogget`, {
-            title: "Studibörse",
-            autoHideDelay: 5000,
-          });
-          setTimeout(function () {
-            router.go();
-          }, 1500);
-          setTimeout(function () {
-            router.push("/");
-          }, 1490);
-        },
+      axios
+        .post(
+          "https://studiboerse.germanywestcentral.cloudapp.azure.com/login",
+          this.form
+        )
+        .then(
+          (response) => {
+            this.data = response.data;
+            localStorage.setItem("Loggedin", this.data);
+            this.$bvToast.toast(`Erfolgreich Eingelogget`, {
+              title: "Studibörse",
+              autoHideDelay: 5000,
+            });
+            setTimeout(function () {
+              router.go();
+            }, 1500);
+            setTimeout(function () {
+              router.push("/");
+            }, 1490);
+          },
 
-        (error) => {
-          console.log(error);
-          this.$bvToast.toast(`Passwort oder E-Mail falsch`, {
-            title: "Studibörse",
-            autoHideDelay: 5000,
-          });
-        }
-      );
+          (error) => {
+            console.log(error);
+            this.$bvToast.toast(`Passwort oder E-Mail falsch`, {
+              title: "Studibörse",
+              autoHideDelay: 5000,
+            });
+          }
+        );
     },
     onReset(event) {
       event.preventDefault();

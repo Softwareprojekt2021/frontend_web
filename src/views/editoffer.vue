@@ -93,7 +93,12 @@
               Sind Sie sicher das Sie das Angebot löschen wollen?
             </p>
             <b-button v-on:click="hideModal">Nein</b-button>
-            <b-button variant="danger" v-on:click="deleteOffer" style="float: right">Ja</b-button>
+            <b-button
+              variant="danger"
+              v-on:click="deleteOffer"
+              style="float: right"
+              >Ja</b-button
+            >
           </b-modal>
         </b-col>
       </b-row>
@@ -131,18 +136,29 @@ export default {
         Authorization: "Bearer " + this.login + " ",
       },
     };
-    axios.get("https://studiboerse.germanywestcentral.cloudapp.azure.com/offer/" + id + "", options).then(
-      (response) => {
-        this.angebot = response.data;
-      },
-      (error) => {
-        console.log(error.response.status);
-      }
-    );
+    axios
+      .get(
+        "https://studiboerse.germanywestcentral.cloudapp.azure.com/offer/" +
+          id +
+          "",
+        options
+      )
+      .then(
+        (response) => {
+          this.angebot = response.data;
+        },
+        (error) => {
+          console.log(error.response.status);
+        }
+      );
     try {
-      axios.get("https://studiboerse.germanywestcentral.cloudapp.azure.com/categories").then((response) => {
-        this.category = response.data;
-      });
+      axios
+        .get(
+          "https://studiboerse.germanywestcentral.cloudapp.azure.com/categories"
+        )
+        .then((response) => {
+          this.category = response.data;
+        });
     } catch (e) {
       console.log(e);
     }
@@ -161,7 +177,11 @@ export default {
         },
       };
       axios
-        .put("https://studiboerse.germanywestcentral.cloudapp.azure.com/offer", this.angebot, options)
+        .put(
+          "https://studiboerse.germanywestcentral.cloudapp.azure.com/offer",
+          this.angebot,
+          options
+        )
         .then((response) => {
           console.log(response);
         })
@@ -203,7 +223,12 @@ export default {
         },
       };
       axios
-        .delete("https://studiboerse.germanywestcentral.cloudapp.azure.com/offer/" + this.offer_id + "", options)
+        .delete(
+          "https://studiboerse.germanywestcentral.cloudapp.azure.com/offer/" +
+            this.offer_id +
+            "",
+          options
+        )
         .then(
           (response) => {
             console.log(response);

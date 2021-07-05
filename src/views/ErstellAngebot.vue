@@ -116,7 +116,11 @@ export default {
         },
       };
       axios
-        .post("https://studiboerse.germanywestcentral.cloudapp.azure.com/offer", this.angebot, options)
+        .post(
+          "https://studiboerse.germanywestcentral.cloudapp.azure.com/offer",
+          this.angebot,
+          options
+        )
         .then((response) => {
           console.log(response);
           this.$bvToast.toast(`Angebot wurde erstellt`, {
@@ -155,9 +159,13 @@ export default {
   //Request für das Getten der Kategorien der Angeboten hierhin.
   mounted() {
     try {
-      axios.get("https://studiboerse.germanywestcentral.cloudapp.azure.com/categories").then((response) => {
-        this.category = response.data;
-      });
+      axios
+        .get(
+          "https://studiboerse.germanywestcentral.cloudapp.azure.com/categories"
+        )
+        .then((response) => {
+          this.category = response.data;
+        });
     } catch (e) {
       console.log(e);
     }

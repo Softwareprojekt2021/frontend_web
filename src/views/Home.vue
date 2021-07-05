@@ -1,8 +1,6 @@
 <template>
   <div>
     <h2>Sudibörse</h2>
-    <!--Filter macht derzeit einige fehler wo die Filter optionen
-    nicht ins select geladen werden-->
     <div>
       <div>
         <b-container>
@@ -12,11 +10,7 @@
               <span>Title</span>
               <br />
               <label>
-                <input
-                    name="filters"
-                    v-model="filtered.title"
-                    placeholder=""
-                />
+                <input name="filters" v-model="filtered.title" placeholder="" />
               </label>
               <br />
               <span>Kategorie</span>

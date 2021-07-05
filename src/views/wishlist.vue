@@ -89,29 +89,37 @@ export default {
     };
     var i = 0;
     try {
-      axios.get("https://studiboerse.germanywestcentral.cloudapp.azure.com/watchlist", options).then((response) => {
-        if (response.statusText !== "NO CONTENT") { try {
-          response.data.forEach((f) => {
-            if (i > 0) {
-              this.angebote["angebot" + i + ""] = JSON.parse(JSON.stringify(f));
-            } else {
-              this.angebote["angebot"] = JSON.parse(JSON.stringify(f));
+      axios
+        .get(
+          "https://studiboerse.germanywestcentral.cloudapp.azure.com/watchlist",
+          options
+        )
+        .then((response) => {
+          if (response.statusText !== "NO CONTENT") {
+            try {
+              response.data.forEach((f) => {
+                if (i > 0) {
+                  this.angebote["angebot" + i + ""] = JSON.parse(
+                    JSON.stringify(f)
+                  );
+                } else {
+                  this.angebote["angebot"] = JSON.parse(JSON.stringify(f));
+                }
+                i++;
+              });
+            } catch (e) {
+              console.log(e);
             }
-            i++;
-          });
-        } catch (e) {
-          console.log(e);
-        }
 
-          this.response = response.data;
-          this.rows = response.data.length;
-          this.dangebote = response.data.slice(0, 3);
-        } else {
-          console.log("No data found!");
-          this.angebote = JSON.parse("{}");
-          console.log(this.angebote);
-        }
-      });
+            this.response = response.data;
+            this.rows = response.data.length;
+            this.dangebote = response.data.slice(0, 3);
+          } else {
+            console.log("No data found!");
+            this.angebote = JSON.parse("{}");
+            console.log(this.angebote);
+          }
+        });
     } catch (e) {
       console.warn("Error Status: ");
       console.warn(e);
@@ -119,7 +127,7 @@ export default {
   },
   methods: {
     hideModal() {
-      this.$root.$emit('bv::hide::modal', 'modal-1', '#btnShow')
+      this.$root.$emit("bv::hide::modal", "modal-1", "#btnShow");
     },
     paginate(currentPage) {
       const start = (currentPage - 1) * this.perPage;
@@ -131,15 +139,22 @@ export default {
           Authorization: "Bearer " + this.login + " ",
         },
       };
-      axios.delete("https://studiboerse.germanywestcentral.cloudapp.azure.com/watchlist/" + id + "", options).then(
-        (response) => {
-          console.log(response);
-        },
-        (error) => {
-          console.log(error.response.status);
-        }
-      );
-      this.$root.$emit('bv::hide::modal', 'modal-1', '#btnShow')
+      axios
+        .delete(
+          "https://studiboerse.germanywestcentral.cloudapp.azure.com/watchlist/" +
+            id +
+            "",
+          options
+        )
+        .then(
+          (response) => {
+            console.log(response);
+          },
+          (error) => {
+            console.log(error.response.status);
+          }
+        );
+      this.$root.$emit("bv::hide::modal", "modal-1", "#btnShow");
       this.$bvToast.toast(`Angebot wurde aus der Wishlist entfernt`, {
         title: "Studibörse",
         autoHideDelay: 5000,
@@ -167,7 +182,7 @@ export default {
 img {
   margin: auto;
 }
-.btn{
+.btn {
   margin-top: 1rem;
 }
 </style>
